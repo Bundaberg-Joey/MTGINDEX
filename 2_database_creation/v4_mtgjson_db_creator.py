@@ -71,8 +71,7 @@ def main():
     df = pd.DataFrame(card_array_writer(list_of_mtgjson_card_dicts, card_attributes),columns=card_attributes)
 
     created_timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
-    version = 'C:/Users/Calum/PycharmProjects/MTG_INDEX_LEVELS/1_card_database/1_mtgjson_update_check/version_check.txt'
-    with open(version,'r') as f:
+    with open('1_update_check/version_check.txt','r') as f:
         build_version = (f.readlines()[1].split(' ')[1].rstrip()).replace('.', '')  # current mtgjson online version
     database_file_name = "mtgjson_database_" + build_version + "_" + created_timestamp + ".csv"
 

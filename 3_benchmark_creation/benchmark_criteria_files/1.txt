@@ -1,0 +1,2 @@
+rarity|Rare|=
+cmc|1|=
