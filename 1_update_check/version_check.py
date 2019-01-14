@@ -1,14 +1,12 @@
 import requests
-from bs4 import BeautifulSoup
+import json
 ########################################################################################################################
 
 
 def current_mtgjson_version():
     """Fetches current version number from mtgjson online and returns value as a string"""
-    page = requests.get('https://mtgjson.com/v4/changelog.html')
-    soup = BeautifulSoup(page.content, 'html.parser')
-    content_soup = soup.find(attrs={'class': 'entry-content'})  # html nest containing most recent mtgjson update info
-    mtgjson_online_version = content_soup.find('h2').get_text().split()[0] # most recent version number from mtgjson
+    page = requests.get('https://mtgjson.com/json/version.json')  # json file containing version number
+    mtgjson_online_version = json.loads(page.content)['version']  # parsed json containing
     return mtgjson_online_version
 
 
