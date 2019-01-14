@@ -2,6 +2,7 @@ import requests  # required to fetch the web pages containing the JSON formatted
 import json  # required to parse through the JSON data and convert to python iterable values
 import pandas as pd  # required to write the CSV file
 import datetime  # to be used in correctly versioning the master database csv file created
+
 ########################################################################################################################
 
 
@@ -10,7 +11,6 @@ def card_dictionary_writer(set_code):
     """Converts online JSON set info to a list of dictionaries, one dictionary per card in the set.
     Updated for mtgjson v4."""
 
-    print('Starting     ', set_code)  # GUI
     json_set_dictionary = requests.get('https://mtgjson.com/v4/json/'+set_code+'.json')
     python_set_dictionary = json.loads(json_set_dictionary.text)  # Convert JSON page to python dict
 
@@ -19,7 +19,6 @@ def card_dictionary_writer(set_code):
         card_dictionary['mtgjson_set_code'] = set_code  # adds code of the set to the dictionary for later use
         set_card_dictionaries.append(card_dictionary)
 
-    print('Finished     ',set_code)  # GUI
     return set_card_dictionaries  # i.e. so return the list of dictionaries, for the set
 
 
@@ -51,6 +50,22 @@ def card_array_writer(mtgjson_card_dict, mtgjson_attributes):
 ########################################################################################################################
 
 
+def card_attribute_fetcher():
+    """
+    parses mtgjson online documentation to create a list of card attributes dynamically rather than stored in text file
+    :return: list card attributes included in mtgjson doccumentation and those required for local database construction
+    """
+    page = requests.get('https://mtgjson.com/docs.html')  # page containing details about card documentation
+    df = pd.read_html(page.content)[0]  # reads html into pandas array
+    all_properties = df['Property'].tolist()  # saves column to list
+    mtgjson_attributes = all_properties[1:all_properties.index('Token')]  # only keeps card specific attributes
+    required_attributes = ['mtgjson_set_code']  # needed for construction of main database
+    return mtgjson_attributes + required_attributes  # will return both of these concatenated
+
+
+########################################################################################################################
+
+
 def main():
 
     """Parses all json pages from mtgjson that have been mapped to sets in mkm.
@@ -58,20 +73,20 @@ def main():
     Missing values placed as "N/A" within the database to prevent null values
     Writes db to csv."""
 
-    path_to_set_mapping = 'C:/Users/Calum/PycharmProjects/MTG_INDEX_LEVELS/1_card_database/2_set_mapping/v4_2_mapped_sets.csv'
+    path_to_set_mapping = 'v4_2_mapped_sets.csv'
     set_code_map = pd.read_csv(path_to_set_mapping)  # codes
 
     list_of_mtgjson_card_dicts = []  # the list that individual card's dictionary will be added to for parsing in f
     for mtgjson_card_set in set_code_map['mtgjson_set_code']:  # for every set code in the list of mapped set codes
+        print('Starting set : ', mtgjson_card_set)  # GUI
         for mtgjson_sing_card_dict in card_dictionary_writer(mtgjson_card_set):  # for every card dict in the set list made
             list_of_mtgjson_card_dicts.append(mtgjson_sing_card_dict) # add to the master list used to create array later
 
-    with open('v4_mtgjson_card_properties.txt', 'r') as f:
-        card_attributes = [line.rstrip() for line in f.readlines()]  # List of available card attributes from mtgjson
+    card_attributes = card_attribute_fetcher()  # List of available card attributes from mtgjson
     df = pd.DataFrame(card_array_writer(list_of_mtgjson_card_dicts, card_attributes),columns=card_attributes)
 
     created_timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
-    with open('1_update_check/version_check.txt','r') as f:
+    with open('../1_update_check/version_check.txt','r') as f:
         build_version = (f.readlines()[1].split(' ')[1].rstrip()).replace('.', '')  # current mtgjson online version
     database_file_name = "mtgjson_database_" + build_version + "_" + created_timestamp + ".csv"
 
