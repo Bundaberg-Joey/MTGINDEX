@@ -1,7 +1,7 @@
 import requests  # required to fetch the web pages containing the JSON formatted MTG set data
 import json  # required to parse through the JSON data and convert to python iterable values
 import pandas as pd  # required to write the CSV file
-import datetime  # to be used in correctly versioning the master database csv file created
+from datetime import datetime  # used in filename versioning
 
 ########################################################################################################################
 
@@ -66,6 +66,22 @@ def card_attribute_fetcher():
 ########################################################################################################################
 
 
+def database_file_name():
+    """
+    Creates a filename for the newly built file, incorporating the current mtgjson version, date, and time the filename
+    was minted. Sourced from webpage rather than stored text value to prevent miss match of versions.
+    :return: name of file as a string
+    """
+    page = requests.get('https://mtgjson.com/json/version.json')
+    mtgjson_version = json.loads(page.content)['version'].replace('.', '')  # takes mtgjson version from their website
+    created_timestamp = datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
+    name_for_build = 'mtgjson_database_' + mtgjson_version + '_' + created_timestamp + '.csv'  # filename for new build
+    return name_for_build
+
+
+########################################################################################################################
+
+
 def main():
 
     """Parses all json pages from mtgjson that have been mapped to sets in mkm.
@@ -73,8 +89,8 @@ def main():
     Missing values placed as "N/A" within the database to prevent null values
     Writes db to csv."""
 
-    path_to_set_mapping = 'v4_2_mapped_sets.csv'
-    set_code_map = pd.read_csv(path_to_set_mapping)  # codes
+    path_to_set_mapping = 'v4_2_mapped_sets.csv'  # mtgjson and mkm have different sets so can't map cleanly between
+    set_code_map = pd.read_csv(path_to_set_mapping)  # list of mapped codes
 
     list_of_mtgjson_card_dicts = []  # the list that individual card's dictionary will be added to for parsing in f
     for mtgjson_card_set in set_code_map['mtgjson_set_code']:  # for every set code in the list of mapped set codes
@@ -84,13 +100,7 @@ def main():
 
     card_attributes = card_attribute_fetcher()  # List of available card attributes from mtgjson
     df = pd.DataFrame(card_array_writer(list_of_mtgjson_card_dicts, card_attributes),columns=card_attributes)
-
-    created_timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
-    with open('../1_update_check/version_check.txt','r') as f:
-        build_version = (f.readlines()[1].split(' ')[1].rstrip()).replace('.', '')  # current mtgjson online version
-    database_file_name = "mtgjson_database_" + build_version + "_" + created_timestamp + ".csv"
-
-    df.to_csv(database_file_name, index=False)  # save this data frame to appropriately named CSV file.
+    df.to_csv(database_file_name(), index=False)  # save this data frame to appropriately named CSV file.
 
 
 ########################################################################################################################
