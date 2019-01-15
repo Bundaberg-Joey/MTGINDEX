@@ -16,21 +16,13 @@ def current_mtgjson_version():
 def version_updater(online):
     """Depending on user input, will update the version file with the build version equal to the online version"""
     while True:  # loop used to ensure correct user input
-        user_choice = input(
-                    "Build Version does not equal MTGJSON version. Do you wish to record the update? (y/n): ")
+        user_choice = input("Do you wish to record the update? (y/n): ")
         if user_choice.lower() == 'y':  # i.e. wish to update the stored build value
-            with open('version_check.txt', 'r+') as f:  # open version file
-                f.seek(0)  # go to start of file and write the below
-                new_content = ['MTGJSON_version ' + online + '\n',
-                                       'Build_version ' + online + '\n']  # updating therefore versions will match
-                f.writelines(new_content)  # writes updated file content
-                print('Version file now updated')
+            with open('version_check.json', 'w') as f:
+                f.write(json.dumps({"Build": online}, indent=4))  # open version file and write new result to JSON dict
                 break
         elif user_choice.lower() == 'n':  # i.e. just wanted to check if there had been an update or not
-            print('Choice registered, no update will be recorded')
             break
-        else:
-            print('Invalid choice')  # ensures only either a 'y' or an 'n' input is received
 
 
 ########################################################################################################################
@@ -38,15 +30,15 @@ def version_updater(online):
 
 def main():
     """Takes version from mtgjson and compares against stored build version. if difference then prompts user"""
-    with open('version_check.txt', 'r+') as f:
-        build_version = f.readlines()[1].split(' ')[1].rstrip()
+    with open('version_check.json', 'r') as f:
+        build_version = json.loads(f.read())['Build']
+    print('MTGJSON_version = ', current_mtgjson_version())
+    print('Build_version = ', build_version)
     if current_mtgjson_version() == build_version:
         print('Build and Online Versions Match.')
     else:
+        print('Build Version does not equal MTGJSON version')
         version_updater(current_mtgjson_version())
-
-    print('MTGJSON_version = ', current_mtgjson_version())
-    print('Build_version = ', build_version)
 
 
 ########################################################################################################################
