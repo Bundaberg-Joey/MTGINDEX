@@ -25,17 +25,16 @@ def card_df_builder(set_code):
 ########################################################################################################################
 
 
-def database_file_name():
+def database_info():
     """
-    Creates a filename for the newly built file, incorporating the current mtgjson version, date, and time the filename
-    was minted. Sourced from web page rather than stored text value to prevent miss match of versions.
-    :return: name of file as a string
+    Creates a filename for the newly built file and also provides version number used in build
+    :return: Tuple "(the file name used in the build, the full version number for updating the build version file)"
     """
     page = requests.get('https://mtgjson.com/json/version.json')
-    version = json.loads(page.content)['version'].replace('.', '')  # takes mtgjson version from their website
+    version = json.loads(page.content)['version']  # takes mtgjson version from their website
     timestamp = datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
-    name_for_build = f'mtgjson_database_{version}_{timestamp}.csv'  # filename for new build
-    return name_for_build
+    build_name = f'mtgjson_database_{version.replace(".", "")}_{timestamp}.csv'  # filename for new build
+    return build_name, version
 
 
 ########################################################################################################################
@@ -52,12 +51,16 @@ def main():
     set_code_map = pd.read_json(mapping_file)['mtgjson_set_code']  # list of mapped codes
 
     df = pd.DataFrame()
-    for mtgjson_set in set_code_map:
+    for mtgjson_set in ['AER']: #set_code_map:
         print(f'Now parsing {mtgjson_set}')
         df = df.append(card_df_builder(mtgjson_set), sort=True)
 
+    database_name, build_version = database_info()
     os.chdir('../2_database_creation/mtgjson_databases')  # change directory for saving file
-    df.to_csv(database_file_name(), index=False)  # save this data frame to appropriately named CSV file.
+    df.to_csv(database_name, index=False)  # save this data frame to appropriately named CSV file.
+
+    with open('../../1_update_check/build_version.json', 'w') as f:  # used to update the stored build version
+        f.write(json.dumps({"Build": build_version}, indent=4))  # writes build version to the file
 
 
 ########################################################################################################################
