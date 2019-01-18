@@ -51,7 +51,7 @@ def main():
     set_code_map = pd.read_json(mapping_file)['mtgjson_set_code']  # list of mapped codes
 
     df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
-    for mtgjson_set in ['AER']: #set_code_map:  # for every set code in the list of mapped sets
+    for mtgjson_set in set_code_map:  # for every set code in the list of mapped sets
         print(f'Now parsing {mtgjson_set}')  # GUI
         df = df.append(set_df_builder(mtgjson_set, 'mtgjson_set_code'), sort=True)  # append the returned database main
 
