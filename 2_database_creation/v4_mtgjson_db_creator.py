@@ -8,7 +8,7 @@ import os  # used in saving file to other folders
 ########################################################################################################################
 
 
-def card_df_builder(set_code):
+def set_df_builder(set_code, set_code_header):
     """
     Used to access the hosted json files, convert json format, read into a pandas dataframe and add the mtgjson_set_code
     as a column to the database for further parsing later on.
@@ -18,7 +18,7 @@ def card_df_builder(set_code):
     page = requests.get('https://mtgjson.com/json/{}.json'.format(set_code))  # URL for json page
     set_cards_json = json.loads(page.content)['cards']  # convert page to JSON and then read relevant section
     set_df = json_normalize(set_cards_json)  # normalize the JSON from the URL and write to pandas Dataframe
-    set_df['mtgjson_set_code'] = set_code  # add the mtgjson set code as a separate column to the dataframe
+    set_df[set_code_header] = set_code  # add the mtgjson set code as a separate column to the dataframe
     return set_df
 
 
@@ -50,10 +50,10 @@ def main():
     mapping_file = 'v4_mapped_sets.json'  # file of mtgjson sets that have been mapped to mkm
     set_code_map = pd.read_json(mapping_file)['mtgjson_set_code']  # list of mapped codes
 
-    df = pd.DataFrame()
-    for mtgjson_set in set_code_map:
-        print(f'Now parsing {mtgjson_set}')
-        df = df.append(card_df_builder(mtgjson_set), sort=True)
+    df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
+    for mtgjson_set in ['AER']: #set_code_map:  # for every set code in the list of mapped sets
+        print(f'Now parsing {mtgjson_set}')  # GUI
+        df = df.append(set_df_builder(mtgjson_set, 'mtgjson_set_code'), sort=True)  # append the returned database main
 
     database_name, build_version = database_info()
     os.chdir('../2_database_creation/mtgjson_databases')  # change directory for saving file
