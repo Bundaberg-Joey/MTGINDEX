@@ -4,6 +4,7 @@ from pandas.io.json import json_normalize  # used to easily convert the download
 import pandas as pd  # required to manipulate json and write to local file
 from datetime import datetime  # used for writing the datetime stamp on the output file name
 import os  # used in saving file to other folders
+from collections import Counter
 
 ########################################################################################################################
 
@@ -24,6 +25,29 @@ def set_df_builder(set_code, set_code_header):
 
 ########################################################################################################################
 
+
+
+def versioned_card(card_names):
+	"""
+	For multiple cards in the same MTG set, mkm will list them as different versions so need to update the card name
+	:param card_names: a list/panda series of strings (in this instance card names)
+	:return: a list of strings, list contains updated card version numbers if required
+	"""
+	set_names = Counter(card_names)  # take names from panda series and convert to Counter object
+	duplicate_names = {i:set_names[i] for i in set_names if set_names[i] != 1}  # new with only unique entries
+
+	updated_card_names = []
+	for card in card_names:  # so for every card name in the set series
+		if card in duplicate_names and duplicate_names[card] != 0:  # if card has duplicate versions and the count is not 0
+			updated_card_names.append(f'{card}-Version-{duplicate_names[card]}')  # version with the name from the dictionary
+			duplicate_names[card] -=1  # update the counter dictionary
+		else:
+			updated_card_names.append(card)
+
+	return updated_card_names
+
+
+########################################################################################################################
 
 def database_info():
     """
@@ -53,7 +77,9 @@ def main():
     df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
     for mtgjson_set in set_code_map:  # for every set code in the list of mapped sets
         print(f'Now parsing {mtgjson_set}')  # GUI
-        df = df.append(set_df_builder(mtgjson_set, 'mtgjson_set_code'), sort=True)  # append the returned database main
+        set_df = set_df_builder(mtgjson_set, 'mtgjson_set_code')
+        set_df['mkm_card_name'] = versioned_card(set_df['name'])
+        df = df.append(set_df, sort=True)  # append the returned database main
 
     database_name, build_version = database_info()
     os.chdir('../2_database_creation/mtgjson_databases')  # change directory for saving file
