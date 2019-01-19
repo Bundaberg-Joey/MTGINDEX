@@ -74,7 +74,7 @@ def database_info():
     page = requests.get('https://mtgjson.com/json/version.json')
     version = json.loads(page.content)['version']  # takes mtgjson version from their website
     timestamp = datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
-    build_name = f'mtgjson_database_{version.replace(".", "")}_{timestamp}.csv'  # filename for new build
+    build_name = f'Card_Database_{version.replace(".", "")}_{timestamp}.csv'  # filename for new build
     return build_name, version
 
 
@@ -105,7 +105,7 @@ def main():
     df[h5] = url_prefix + df[h4] + '/' + df[h3]  # mkm URL used to access any mapped mtg card
 
     database_name, build_version = database_info()  # unpack variables for file name and build version
-    os.chdir('../2_database_creation/mtgjson_databases')  # change directory for saving file
+    os.chdir('../2_database_creation/Card_Databases')  # change directory for saving file
     df.to_csv(database_name, index=False)  # save this data frame to appropriately named CSV file.
 
     with open('../../1_update_check/build_version.json', 'w') as f:  # used to update the stored build version
