@@ -4,7 +4,7 @@ from pandas.io.json import json_normalize  # used to easily convert the download
 import pandas as pd  # required to manipulate json and write to local file
 from datetime import datetime  # used for writing the datetime stamp on the output file name
 import os  # used in saving file to other folders
-from collections import Counter
+from collections import Counter  # used to version card names
 
 ########################################################################################################################
 
@@ -49,17 +49,17 @@ def card_name_corrector(card_names):
     :param card_names: a list/panda series of strings (in this instance card names)
     :return: a list of strings, list contains updated card version numbers and syntax if required
     """
-    set_names = Counter(card_names)  # take names from panda series and convert to Counter object
-    duplicate_names = {i:set_names[i] for i in set_names if set_names[i] != 1}  # new with only unique entries
+    set_cards = Counter(card_names)  # take names from panda series and convert to Counter object
+    duplicate_names = {card:set_cards[card] for card in set_cards if set_cards[card] != 1}  # only have unique entries
 
     corrected_card_names = []
-    for card in card_names:  # so for every card name in the set series
-        if card in duplicate_names and duplicate_names[card] != 0:  # if card has duplicate versions and the count is not 0
-            versioned_name = f'{card}-Version-{duplicate_names[card]}'
-            corrected_card_names.append(mkm_syntax_fixer(versioned_name))  # version with the name from the dictionary
+    for card in card_names:  # so for every card name in the series of cards passed
+        if card in duplicate_names and duplicate_names[card] != 0:  # if card has duplicates in set and the count != 0
+            versioned_name = f'{card}-Version-{duplicate_names[card]}'  # create versioned card name
+            corrected_card_names.append(mkm_syntax_fixer(versioned_name))  # update syntax & add to list to be returned
             duplicate_names[card] -=1  # update the counter dictionary
         else:
-            corrected_card_names.append(mkm_syntax_fixer(card))
+            corrected_card_names.append(mkm_syntax_fixer(card))  # catches unique cards & adds corrected names to list
 
     return corrected_card_names
 
@@ -83,24 +83,27 @@ def database_info():
 
 def main():
 
-    """Parses all json pages from mtgjson that have been mapped to sets in mkm.
-    Creates a singular pandas database from these json files.
-    Missing values placed as "N/A" within the database to prevent null values
-    Writes db to csv."""
+    """Parses all json pages from mtgjson that have been mapped to sets in mkm. and creates pandas df for each one which
+    is cleaned as required through syntax fixes. These smaller dfs are combined into a singular one which is then mapped
+    and used to create URLs to the card's corresponding mkm page. This df is then saved to a csv and the local build
+    version stored is updated.
+    """
 
-    mapping_file = 'v4_mapped_sets.json'  # file of mtgjson sets that have been mapped to mkm
-    set_code_map = pd.read_json(mapping_file)['mtgjson_set_code']  # list of mapped codes
+    mapping_df = pd.read_json('v4_mapped_sets.json')  # file of mtgjson sets that have been mapped to mkm
+    set_code_list = mapping_df['mtgjson_set_code']  # list of mtgjson set codes mapped to mkm
 
     df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
-    for mtgjson_set in set_code_map:  # for every set code in the list of mapped sets
+    for mtgjson_set in set_code_list:  # for every set code in the list of mapped sets
         print(f'Now parsing {mtgjson_set}')  # GUI
         set_df = set_df_builder(mtgjson_set, 'mtgjson_set_code')  # constructs the dataframe of each individual set
         set_df['mkm_name'] = card_name_corrector(set_df['name'])  # create new column based off 'name' column
         df = df.append(set_df, sort=True)  # append the returned database to the main
 
-    # TODO : Add syntax fixer across multiple concatonated columns to get web name
+    df = df.merge(mapping_df, on='mtgjson_set_code')  # maps each setcode to the set name used in the mkm URL
+    url_prefix = 'https://www.cardmarket.com/en/Magic/Products/Singles/'  # used as prefix in all mkm URLs
+    df['mkm_url'] = url_prefix + df['mkm_web_name'] + '/' + df['mkm_name']  # mkm URL used to access any mapped mtg card
 
-    database_name, build_version = database_info()
+    database_name, build_version = database_info()  # unpack variables
     os.chdir('../2_database_creation/mtgjson_databases')  # change directory for saving file
     df.to_csv(database_name, index=False)  # save this data frame to appropriately named CSV file.
 
