@@ -26,25 +26,42 @@ def set_df_builder(set_code, set_code_header):
 ########################################################################################################################
 
 
+def mkm_syntax_fixer(card_name):
+    """
+    Given the name of a card from MTGJSON, will update the string with the correct syntax for URL (i.e. " " --> "-")
+    :param card_name: a string potentially containing string elements which need to be updated
+    :return: a string where any string elements present in the below dictionary will have been converted to the fix
+    """
+    syntax_fixes = {" ": "-", ":": "", "'": "-", ".": "", ",": "", "--": "-"}
+    for fix in syntax_fixes:
+        if fix in card_name:
+            card_name = card_name.replace(fix, syntax_fixes[fix])
+    return card_name
 
-def versioned_card(card_names):
+
+########################################################################################################################
+
+
+def card_name_corrector(card_names):
     """
     For multiple cards in the same MTG set, mkm will list them as different versions so need to update the card name
+    The card name will also have any grammatical syntax updated as per the syntax fixer function
     :param card_names: a list/panda series of strings (in this instance card names)
-    :return: a list of strings, list contains updated card version numbers if required
+    :return: a list of strings, list contains updated card version numbers and syntax if required
     """
     set_names = Counter(card_names)  # take names from panda series and convert to Counter object
     duplicate_names = {i:set_names[i] for i in set_names if set_names[i] != 1}  # new with only unique entries
 
-    updated_card_names = []
+    corrected_card_names = []
     for card in card_names:  # so for every card name in the set series
         if card in duplicate_names and duplicate_names[card] != 0:  # if card has duplicate versions and the count is not 0
-            updated_card_names.append(f'{card}-Version-{duplicate_names[card]}')  # version with the name from the dictionary
+            versioned_name = f'{card}-Version-{duplicate_names[card]}'
+            corrected_card_names.append(mkm_syntax_fixer(versioned_name))  # version with the name from the dictionary
             duplicate_names[card] -=1  # update the counter dictionary
         else:
-            updated_card_names.append(card)
+            corrected_card_names.append(mkm_syntax_fixer(card))
 
-    return updated_card_names
+    return corrected_card_names
 
 
 ########################################################################################################################
@@ -78,7 +95,7 @@ def main():
     for mtgjson_set in set_code_map:  # for every set code in the list of mapped sets
         print(f'Now parsing {mtgjson_set}')  # GUI
         set_df = set_df_builder(mtgjson_set, 'mtgjson_set_code')  # constructs the dataframe of each individual set
-        set_df['mkm_card_name'] = versioned_card(set_df['name'])  # create new column based off 'name' column
+        set_df['mkm_name'] = card_name_corrector(set_df['name'])  # create new column based off 'name' column
         df = df.append(set_df, sort=True)  # append the returned database to the main
 
     # TODO : Add syntax fixer across multiple concatonated columns to get web name
