@@ -88,22 +88,23 @@ def main():
     and used to create URLs to the card's corresponding mkm page. This df is then saved to a csv and the local build
     version stored is updated.
     """
+    h1, h2, h3, h4, h5 = ('mtgjson_set_code','name','mkm_name', 'mkm_web_name', 'mkm_url')  # cols referenced frequently
 
     mapping_df = pd.read_json('v4_mapped_sets.json')  # file of mtgjson sets that have been mapped to mkm
-    set_code_list = mapping_df['mtgjson_set_code']  # list of mtgjson set codes mapped to mkm
+    set_code_list = mapping_df[h1]  # list of mtgjson set codes mapped to mkm
 
     df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
     for mtgjson_set in set_code_list:  # for every set code in the list of mapped sets
-        print(f'Now parsing {mtgjson_set}')  # GUI
-        set_df = set_df_builder(mtgjson_set, 'mtgjson_set_code')  # constructs the dataframe of each individual set
-        set_df['mkm_name'] = card_name_corrector(set_df['name'])  # create new column based off 'name' column
+        print(f'Now processing {mtgjson_set}')  # GUI
+        set_df = set_df_builder(mtgjson_set, h1)  # constructs the dataframe of each individual set, column name passed
+        set_df[h3] = card_name_corrector(set_df[h2])  # create column containing names corrected for mkm
         df = df.append(set_df, sort=True)  # append the returned database to the main
 
-    df = df.merge(mapping_df, on='mtgjson_set_code')  # maps each setcode to the set name used in the mkm URL
+    df = df.merge(mapping_df, on=h1)  # maps each set code to the set name used in the mkm URL
     url_prefix = 'https://www.cardmarket.com/en/Magic/Products/Singles/'  # used as prefix in all mkm URLs
-    df['mkm_url'] = url_prefix + df['mkm_web_name'] + '/' + df['mkm_name']  # mkm URL used to access any mapped mtg card
+    df[h5] = url_prefix + df[h4] + '/' + df[h3]  # mkm URL used to access any mapped mtg card
 
-    database_name, build_version = database_info()  # unpack variables
+    database_name, build_version = database_info()  # unpack variables for file name and build version
     os.chdir('../2_database_creation/mtgjson_databases')  # change directory for saving file
     df.to_csv(database_name, index=False)  # save this data frame to appropriately named CSV file.
 
