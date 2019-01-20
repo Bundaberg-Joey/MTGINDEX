@@ -1,0 +1,12 @@
+[
+ {
+   "property": "rarity",
+   "operation": "=",
+   "value": "Rare"
+ },
+ {
+   "property": "cmc",
+   "operation": "=",
+   "value": "2"
+ }
+]
