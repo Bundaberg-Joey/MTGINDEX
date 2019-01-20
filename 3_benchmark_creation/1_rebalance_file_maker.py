@@ -36,19 +36,18 @@ def criteria_enforcer(card_df, criteria):
 
 
 ########################################################################################################################
-os.chdir('../3_benchmark_creation/benchmark_criteria_files')
-criteria_files = [i for i in os.listdir(os.getcwd())]
+os.chdir('../3_benchmark_creation/benchmark_criteria_files')  # folder of criteria files, 1 file per benchmark
+criteria_files = [i for i in os.listdir(os.getcwd())]  # list of criteria files
 
-for crt_file in criteria_files:
-    df_criteria = pd.read_json(crt_file)  # criteria file
+for crt_file in criteria_files:  # for every criteria file in the folder
+    df_criteria = pd.read_json(crt_file)  # read the file into a json format
     mandatory_cols = ['uuid', 'mkm_url'] + df_criteria['attribute'].tolist()  # list of required headers for rebalance db
 
     df_database = pd.read_csv('../../2_database_creation/Card_Databases/Card_Database_421_20190120_0949.csv')[mandatory_cols]  # main card db
 
     for i in range(len(df_criteria.index)):  # for i in range(number of rows in the criteria file)
-        print('Applying Criteria')  # GUI
-        df_database = criteria_enforcer(df_database, df_criteria.loc[i])
-        if df_database.size == 0:
+        df_database = criteria_enforcer(df_database, df_criteria.loc[i])  # pass dataframe and ith fow of criteria file
+        if df_database.size == 0:  # check to see if resultant database is empty
             print('The filtered database is empty')  # GUI
 
     os.chdir('../benchmark_rebalance_files')  # change to where the rebalance file will be saved
@@ -56,3 +55,4 @@ for crt_file in criteria_files:
 
 # Can crudely do multiple filterings given operators.
 # TODO 3) Write each totally filtered df to a csv with appropriate name
+# TODO 4) needs to take most recent card database file as input also as currently hardcoded for just the one
