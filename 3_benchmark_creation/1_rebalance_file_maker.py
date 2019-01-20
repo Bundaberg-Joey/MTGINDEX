@@ -36,20 +36,23 @@ def criteria_enforcer(card_df, criteria):
 
 
 ########################################################################################################################
+os.chdir('../3_benchmark_creation/benchmark_criteria_files')
+criteria_files = [i for i in os.listdir(os.getcwd())]
 
+for crt_file in criteria_files:
+    df_criteria = pd.read_json(crt_file)  # criteria file
+    mandatory_cols = ['uuid', 'mkm_url'] + df_criteria['attribute'].tolist()  # list of required headers for rebalance db
 
+    df_database = pd.read_csv('../../2_database_creation/Card_Databases/Card_Database_421_20190120_0949.csv')[mandatory_cols]  # main card db
 
-df_criteria = pd.read_json('../3_benchmark_creation/benchmark_criteria_files/2.json')  # criteria file
-mandatory_cols = ['uuid', 'mkm_url'] + df_criteria['attribute'].tolist()  # list of required headers for rebalance db
+    for i in range(len(df_criteria.index)):  # for i in range(number of rows in the criteria file)
+        print('Applying Criteria')  # GUI
+        df_database = criteria_enforcer(df_database, df_criteria.loc[i])
+        if df_database.size == 0:
+            print('The filtered database is empty')  # GUI
 
-df_database = pd.read_csv('../2_database_creation/Card_Databases/Card_Database_421_20190120_0949.csv')[mandatory_cols]  # main card db
-print(df_database.shape)
-
-for i in range(len(df_criteria.index)):  # for i in range(number of rows in the criteria file)
-    df_database = criteria_enforcer(df_database, df_criteria.loc[i])
-    print(df_database.shape)
+    os.chdir('../benchmark_rebalance_files')  # change to where the rebalance file will be saved
+    df_database.to_csv('thingy.csv', index=False)  # write the file to a name
 
 # Can crudely do multiple filterings given operators.
-# TODO 1) make this work for all criteria files (i.e. os and listdir and also loading the card DB multiple times 4 in 4
-# TODO 2) Put an alert in so you know if result is a df.size == 0 (i.e. an empty database)
-# TODO 3) Write each totally filtered df to a csv
+# TODO 3) Write each totally filtered df to a csv with appropriate name
