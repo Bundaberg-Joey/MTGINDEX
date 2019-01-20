@@ -1,22 +1,55 @@
-# TODO 1) loops through the criteria file directory and for each file in the directory it
-# DONE 2) unpacks the criteria txt file into a series of nested lists to be read and manipulated into a pandas db
-# DONE 3) the main db and criteria list are initially stripped of non filter columns to save memory in processing
-# TODO 4) This smaller file is then recursively filtered according to criteria
-# TODO 5) the fully filtered pandas db is then written to a csv file with the same name as criteria file
-########################################################################################################################
 import pandas as pd
-import json
+import os
+
+########################################################################################################################
+
+
+def criteria_enforcer(card_df, criteria):
+    """
+    given pandas filtering criteria, will filter passed df and return the passed version
+    :param card_df: a passed pandas dataframe, the returned version will be suitably filtered
+    :param criteria: a series of 3 values  (column to filter on, operator, value to filter by)
+    :return: a filtered pandas database
+    """
+    crt_attribute, crt_operator, crt_value = criteria  # split criteria into its 3 parts (attribute, operator, value)
+    if crt_value.isnumeric():  # if the criteria value is a number but read as string
+        crt_value = int(crt_value)  # convert to integer if needed (i.e. for ConvertedManaCost)
+
+    if crt_operator == '=':
+        card_df = card_df[card_df[crt_attribute] == crt_value]  # filter where attribute  ==   value
+        return card_df
+    elif crt_operator == '>':
+        card_df = card_df[card_df[crt_attribute] > crt_value]  # filter where attribute  ==   value
+        return card_df
+    elif crt_operator == '>=':
+        card_df = card_df[card_df[crt_attribute] >= crt_value]  # filter where attribute  ==   value
+        return card_df
+    elif crt_operator == '<':
+        card_df = card_df[card_df[crt_attribute] < crt_value]  # filter where attribute  ==   value
+        return card_df
+    elif crt_operator == '<=':
+        card_df = card_df[card_df[crt_attribute] <= crt_value]  # filter where attribute  ==   value
+        return card_df
+    elif crt_operator == '!=':
+        card_df = card_df[card_df[crt_attribute] != crt_value]  # filter where attribute  ==   value
+        return card_df
+
+
+########################################################################################################################
+
 
 
 df_criteria = pd.read_json('../3_benchmark_creation/benchmark_criteria_files/2.json')  # criteria file
 mandatory_cols = ['uuid', 'mkm_url'] + df_criteria['attribute'].tolist()  # list of required headers for rebalance db
 
-df = pd.read_csv('../2_database_creation/Card_Databases/Card_Database_421_20190120_0949.csv')[mandatory_cols]  # main card db
-
+df_database = pd.read_csv('../2_database_creation/Card_Databases/Card_Database_421_20190120_0949.csv')[mandatory_cols]  # main card db
+print(df_database.shape)
 
 for i in range(len(df_criteria.index)):  # for i in range(number of rows in the criteria file)
-    crt_attr, crt_op, crt_val = df_criteria.loc[i]  # unpack each assignment into three values
-    if crt_val.isnumeric():  # if the criteria value is a number but read as string
-        crt_val = int(crt_val)  # convert to integer if needed (i.e. for ConvertedManaCost)
-    df = df[df[crt_attr] == crt_val]  # df where df[row told to look at] == value told to equal
-    print(df.shape)
+    df_database = criteria_enforcer(df_database, df_criteria.loc[i])
+    print(df_database.shape)
+
+# Can crudely do multiple filterings given operators.
+# TODO 1) make this work for all criteria files (i.e. os and listdir and also loading the card DB multiple times 4 in 4
+# TODO 2) Put an alert in so you know if result is a df.size == 0 (i.e. an empty database)
+# TODO 3) Write each totally filtered df to a csv
