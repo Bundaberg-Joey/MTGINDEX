@@ -1,2 +1,3 @@
-rarity|Rare|=
-cmc|1|=
+property,operation,value
+rarity,=,Rare
+cmc,=,1
