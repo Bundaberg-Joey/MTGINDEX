@@ -52,9 +52,9 @@ for crt_file in criteria_files:  # for every criteria file in the folder (i.e. f
     os.chdir(looping_criteria_path)
     print(f'parsing "{crt_file}"')  # GUI
     df_criteria = pd.read_json(crt_file)  # read the criteria file into a json format
-    mandatory_cols =  mandatory_db_cols + df_criteria[df_criteria.columns[0]].tolist()  # cols needed for benchmark file
+    benchmark_cols = mandatory_db_cols + df_criteria[df_criteria.columns[0]].tolist()  # cols needed for benchmark file
 
-    benchmark_df = pd.read_csv(card_database_path + database_name)[mandatory_cols]  # load card db with required cols
+    benchmark_df = pd.read_csv(card_database_path + database_name, low_memory=False)[benchmark_cols]  # load card db
     for i in range(len(df_criteria.index)):  # for i in range(number of rows in the criteria file) i.e. for every row
         print(f'    parsing criteria {i+1}')  # GUI
         benchmark_df = criteria_enforcer(benchmark_df, df_criteria.loc[i])  # pass df and 'i'th fow of criteria file
