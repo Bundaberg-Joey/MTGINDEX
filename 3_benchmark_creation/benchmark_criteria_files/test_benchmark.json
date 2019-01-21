@@ -1,0 +1,12 @@
+[
+ {
+   "attribute": "rarity",
+   "operation": "=",
+   "value": "rare"
+ },
+ {
+   "attribute": "convertedManaCost",
+   "operation": "=",
+   "value": "2"
+ }
+]
