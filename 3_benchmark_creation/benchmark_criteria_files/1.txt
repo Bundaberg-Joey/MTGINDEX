@@ -1,3 +1,0 @@
-property,operation,value
-rarity,=,Rare
-cmc,=,1
