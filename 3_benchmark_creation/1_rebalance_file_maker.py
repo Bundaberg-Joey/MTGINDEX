@@ -45,8 +45,8 @@ mandatory_db_cols = ['uuid', 'mkm_url']  # columns always required from the pare
 
 os.chdir(criteria_files_path)  # folder of criteria files, 1 file per benchmark
 criteria_files = [i for i in os.listdir(os.getcwd())]  # list of criteria files to be actioned in this script
-database_name = [i for i in os.listdir(card_database_path) if '.csv' in i][0]  # filename of most recent card database
-
+database_name = [i for i in os.listdir(card_database_path) if '.csv' in i][-1]  # filename of most recent card database
+print(f'Card database being used is {database_name}')
 
 for crt_file in criteria_files:  # for every criteria file in the folder (i.e. for every benchmark to be created)
     os.chdir(looping_criteria_path)
