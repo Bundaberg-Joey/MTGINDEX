@@ -65,7 +65,14 @@ for crt_file in criteria_files:  # for every criteria file in the folder (i.e. f
 
     os.chdir(benchmark_database_path)  # change to where the rebalance file will be saved
     benchmark_file_name = crt_file.split('.')[0]+'.csv'  # save name is the same as the criteria file but .csv extension
-    benchmark_df.to_csv(benchmark_file_name, index=False)  # write the benchmark database to a dynamic filename
+
+    if benchmark_df.size == 0:  # so if the benchmark does not possess any constituents
+        print('	Benchmark has no constituents, see null file')
+        with open('null_benchmarks.txt', 'a') as f:  # record the benchmark name to the text file and don't write csv
+            f.write(benchmark_file_name)
+    elif benchmark_df.size > 0:  # i.e. if the benchmark does possess constituents
+        print('	Benchmark has constituents, saving benchmark')
+        benchmark_df.to_csv(benchmark_file_name, index=False)  # write the benchmark database to a dynamic filename
 
 
 # TODO : Test on larger scale for multiple filterings to ensure benchmark creation is consistent and reliable
