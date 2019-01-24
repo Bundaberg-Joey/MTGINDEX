@@ -69,7 +69,7 @@ for crt_file in criteria_files:  # for every criteria file in the folder (i.e. f
     if benchmark_df.size == 0:  # so if the benchmark does not possess any constituents
         print('	Benchmark has no constituents, see null file')
         with open('null_benchmarks.txt', 'a') as f:  # record the benchmark name to the text file and don't write csv
-            f.write(benchmark_file_name)
+            f.writelines(f'{benchmark_file_name}\n')
     elif benchmark_df.size > 0:  # i.e. if the benchmark does possess constituents
         print('	Benchmark has constituents, saving benchmark')
         benchmark_df.to_csv(benchmark_file_name, index=False)  # write the benchmark database to a dynamic filename
