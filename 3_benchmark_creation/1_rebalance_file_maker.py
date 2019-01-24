@@ -36,7 +36,11 @@ def criteria_enforcer(card_df, criteria):
     elif crt_operator == 'contain':
         attribute_investigated = card_df[crt_attribute].str.lower()  # selects series, converts strings to lower case
         card_df = card_df[attribute_investigated.str.contains(crt_value.lower()) == True]
-        return card_df  # if the lower string is in the lower column then filter rows based on that
+        return card_df  # if the lower string IS in the lower column then filter rows based on that
+    elif crt_operator == 'exclude':
+        attribute_investigated = card_df[crt_attribute].str.lower()  # selects series, converts strings to lower case
+        card_df = card_df[attribute_investigated.str.contains(crt_value.lower()) == False]
+        return card_df  # if the lower string NOT in the lower column then filter rows based on that
 
 
 ########################################################################################################################
