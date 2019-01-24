@@ -6,7 +6,7 @@
  },
  {
    "attribute": "convertedManaCost",
-   "operation": "=",
-   "value": "2"
+   "operation": ">",
+   "value": "3"
  }
 ]

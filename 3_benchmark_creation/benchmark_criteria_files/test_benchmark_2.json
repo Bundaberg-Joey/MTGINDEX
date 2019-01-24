@@ -1,12 +1,7 @@
 [
  {
-   "attribute": "rarity",
-   "operation": "=",
-   "value": "rare"
- },
- {
-   "attribute": "convertedManaCost",
-   "operation": ">",
-   "value": "4"
+   "attribute": "text",
+   "operation": "contain",
+   "value": "!#2$"
  }
 ]
