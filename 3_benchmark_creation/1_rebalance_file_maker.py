@@ -33,6 +33,10 @@ def criteria_enforcer(card_df, criteria):
     elif crt_operator == '!=':
         card_df = card_df[card_df[crt_attribute] != crt_value]  # filter where attribute  !=   value
         return card_df
+    elif crt_operator == 'contain':
+        attribute_investigated = card_df[crt_attribute].str.lower()  # selects series, converts strings to lower case
+        card_df = card_df[attribute_investigated.str.contains(crt_value.lower()) == True]
+        return card_df  # if the lower string is in the lower column then filter rows based on that
 
 
 ########################################################################################################################
