@@ -39,9 +39,9 @@ def card_abilities(json_url):
 	return card_abilities
 
 ########################################################################################################################
-colour_ids = card_colour_ids('Card_Database_421_20190123_2133.csv')  # Dict as per above function, no issue with pd filtering
+colour_ids = card_colour_ids('../2_database_creation/Card_Databases/Card_Database_421_20190124_1932.csv')  # Dict as per above function, no issue with pd filtering
 abilities = card_abilities('https://mtgjson.com/json/Keywords.json') # This can be filtered for in benchmark creation
-cmc = [i for i in range(1,17)] + [1000000] # max of 16 in mtg. Filter works for pd filtering. max due to one UNH card
+cmc = [i for i in range(0,17)] + [1000000] # max of 16 in mtg. Filter works for pd filtering. max due to one UNH card
 
 # 67584 combinations although I reckon a load of them aren't going to be filled
 
