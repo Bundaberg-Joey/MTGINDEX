@@ -7,9 +7,15 @@ import ast
 ########################################################################################################################
 
 
-def card_colour_ids(database_file):
+def card_colour_ids(database_file, database_series):
+	"""
+	given a pandas dataframe and specified series in that dataframe, will a dictionary of unique entries in series
+	:param database_file:  mtgjson database file
+	:param database_series: specified column (dataframe dict key) in the passed column
+	:return: a dictionary of uique values where key is to be suitable for file naming and value for json saving
+	"""
 	df = pd.read_csv(database_file)
-	colour_count = Counter(df['colorIdentity'].tolist())  # all entries converted to Counter object to remove non unique
+	colour_count = Counter(df[database_series].tolist())  # all entries converted to Counter object to remove non unique
 	stored_colours = [i for i in colour_count]  # keys of Counter, strings are str representations of lists used in db
 
 	filename_colours = []  # strings to be used in the benchmark filename (i.e. can't be in list form)
@@ -39,7 +45,7 @@ def card_abilities(json_url):
 	return card_abilities
 
 ########################################################################################################################
-colour_ids = card_colour_ids('../2_database_creation/Card_Databases/Card_Database_421_20190124_1932.csv')  # Dict as per above function, no issue with pd filtering
+colour_ids = card_colour_ids('../2_database_creation/Card_Databases/Card_Database_421_20190121_2205.csv', 'colorIdentity')  # Dict as per above function, no issue with pd filtering
 abilities = card_abilities('https://mtgjson.com/json/Keywords.json') # This can be filtered for in benchmark creation
 cmc = [i for i in range(0,17)] + [1000000] # max of 16 in mtg. Filter works for pd filtering. max due to one UNH card
 
