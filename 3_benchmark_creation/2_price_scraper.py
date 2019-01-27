@@ -40,39 +40,41 @@ def value_writer(scraped_kingdom_data):
     :return: a pandas dataframe with headers :
     ['set', 'card', 'NM_price', 'NM_qty', 'EX_price', 'EX_qty', 'VG_price', 'VG_qty', 'G_price', 'G_qty']
     """
-    card_link, card_prices, card_qty = scraped_kingdom_data
+    card_link, card_prices, card_qty = scraped_kingdom_data  # unpack tuple to variables
     card_facts = [[href.split('/')[-2], href.split('/')[-1]] for href in card_link]  # splits link to list of set & name
     card_cond_prices = [card_prices[i:i + 4] for i in range(0, len(card_prices), 4)]  # turns prices to sublists of 4
     card_cond_qty = [card_qty[i:i + 4] for i in range(0, len(card_qty), 4)]  # turns quantity to sublists of 4
 
-    card_list = []
+    card_list = []  # will end up containing 60 of the below dictionarys (1 per card)
     for i in range(0,len(card_facts)):
         card_info = {
-            'set': card_facts[i][-2],
-            'card':card_facts[i][-1],
-            'NM_price':card_cond_prices[i][0], 'NM_qty':card_cond_qty[i][0],
-            'EX_price': card_cond_prices[i][1], 'EX_qty': card_cond_qty[i][1],
-            'VG_price': card_cond_prices[i][2], 'VG_qty': card_cond_qty[i][2],
-            'G_price': card_cond_prices[i][3], 'G_qty': card_cond_qty[i][3]}
+            'set': card_facts[i][-2],  # set name as per kk
+            'card':card_facts[i][-1],  # card name as per kk
+            'NM_price':card_cond_prices[i][0], 'NM_qty':card_cond_qty[i][0],  # NM condition information
+            'EX_price': card_cond_prices[i][1], 'EX_qty': card_cond_qty[i][1],  # EX condition information
+            'VG_price': card_cond_prices[i][2], 'VG_qty': card_cond_qty[i][2],  # VG condition information
+            'G_price': card_cond_prices[i][3], 'G_qty': card_cond_qty[i][3]}  # G condition information
 
         card_list.append(card_info)
 
-    #kingdom_headers =
     return pd.DataFrame(card_list)
 
-# columns=['set', 'card', 'NM_price', 'NM_qty', 'EX_price', 'EX_qty', 'VG_price', 'VG_qty', 'G_price', 'G_qty']
+
 ########################################################################################################################
 
-grn_url = 'https://www.cardkingdom.com/mtg/guilds-of-ravnica/singles?filter%5Bipp%5D=60&filter%5Bsort%5D=name&page='
+base_url = 'https://www.cardkingdom.com/mtg/guilds-of-ravnica/singles?filter%5Bipp%5D=60&filter%5Bsort%5D=name&page='
 
-df = pd.DataFrame()
-for i in range(1,20):
-    print(f'Scraping instance {i}')
-    scraped_info = value_scraper(f'{grn_url}{i}')
-    if len(scraped_info[0]) == 0:
+df = pd.DataFrame()  # initialise empty dataframe
+url_index = 1  # used to cycle through the kk URLs
+while True:
+    print(f'Scraping instance {url_index}')  # GUI
+    scraped_info = value_scraper(f'{base_url}{url_index}')  # extracted results of scraped page
+    if len(scraped_info[0]) == 0:  # i.e. if empty list returned because no more values to scrape
         break
     else:
-        print(f'Writing instance {i}')
-        df = df.append(value_writer(scraped_info), sort=True)
+        print(f'Writing instance {url_index}')  # GUI
+        df = df.append(value_writer(scraped_info), sort=True)  # append data frame to main df for later writing
+        url_index += 1  # update for further scrapring
 
-df.to_csv('GRN.csv', index=False, columns=['set', 'card', 'NM_price', 'NM_qty', 'EX_price', 'EX_qty', 'VG_price', 'VG_qty', 'G_price', 'G_qty'])
+file_headers = ['set', 'card', 'NM_price', 'NM_qty', 'EX_price', 'EX_qty', 'VG_price', 'VG_qty', 'G_price', 'G_qty']
+df.to_csv('GRN.csv', index=False, columns=file_headers)  # write to file with given order of columns
