@@ -101,7 +101,7 @@ def main():
         df = df.append(set_df, sort=True)  # append the returned database to the main
 
     df = df.merge(mapping_df, on=h1)  # maps each set code to the set name used in the mkm URL
-    url_prefix = 'https://www.cardmarket.com/en/Magic/Products/Singles/'  # used as prefix in all mkm URLs
+    url_prefix = '/en/Magic/Products/Singles/'  # used as prefix in all mkm URLs
     df[h5] = url_prefix + df[h4] + '/' + df[h3]  # mkm URL used to access any mapped mtg card
 
     database_name, build_version = database_info()  # unpack variables for file name and build version
