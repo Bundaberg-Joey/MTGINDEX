@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
+import os
 ########################################################################################################################
 
 
@@ -68,6 +69,9 @@ def main():
     :return: a database of all scraped card info
     """
     set_list = ['Guilds-of-Ravnica']  # list of mkm sets that will be parsed
+
+    os.chdir('../4_data_scraping/mkm_Databases')
+
     df = pd.DataFrame()  # initialise empty dataframe
 
     date_stamp = datetime.now().strftime("%Y%m%d")  # dated filename
@@ -80,7 +84,14 @@ def main():
 
     df.to_csv(f'mkm_database_{date_stamp}.csv', index=False, columns=file_headers)  # write to file with given name
 
-# TODO 1) write to parse all mapped sets and save data to singular csv
+    file_list = [i for i in os.listdir(os.getcwd())]  # list of all files stored in the price database folder
+    if f'mkm_database_{date_stamp}.csv' in  file_list:  # check to see if today's full file exists
+        print('Full database exists, incremental files deleted')
+        for written_file in file_list:
+            if 'Partial_' in written_file:
+                os.remove(written_file)
+    else:
+        print('Error full database does not exist for the day, incremental files retained')
 
 ########################################################################################################################
 
