@@ -68,7 +68,7 @@ def main():
     final database to a differently named file (file stamped with date of scraping).
     :return: a database of all scraped card info
     """
-    set_list = ['Guilds-of-Ravnica', 'Aether-Revolt']  # list of mkm sets that will be parsed
+    mkm_set_list = pd.read_json('../2_database_creation/v4_mapped_sets.json')['mkm_web_name']  #  mkm sets to parse
 
     os.chdir('../4_data_scraping/mkm_Databases')
 
@@ -77,7 +77,7 @@ def main():
 
     df = pd.DataFrame()  # initialise empty dataframe
     partial_count = 1  # keep track of partial files created
-    for mkm_set in set_list:  # for every mkm set in the list of mapped sets
+    for mkm_set in mkm_set_list:  # for every mkm set in the list of mapped sets
         set_df = price_set_scraper(mkm_set)  # pandas df containing the data for a passed set code
         df = df.append(set_df)  # add to main df to be eventually written
         df.to_csv(f'Partial_{date_stamp}_{partial_count}.csv', index=False, columns=file_headers)  # write to csv file
