@@ -70,9 +70,9 @@ def main():
     """
     mkm_set_list = pd.read_json('../2_database_creation/v4_mapped_sets.json')['mkm_web_name']  #  mkm sets to parse
 
-    os.chdir('../4_data_scraping/mkm_Databases')
+    os.chdir('../4_data_scraping/mkm_Databases')  # directory that scraped data files will be written to
 
-    date_stamp = datetime.now().strftime("%Y%m%d")  # dated filename
+    date_stamp = datetime.now().strftime("%Y%m%d")  # date for filename
     file_headers = ['card_desc', 'nf_shinv', 'nf_upeur', 'f_shinv', 'f_upeur']  # order of columns to write file
 
     df = pd.DataFrame()  # initialise empty dataframe
@@ -87,13 +87,13 @@ def main():
 
     file_list = [i for i in os.listdir(os.getcwd())]  # list of all files stored in the price database folder
     if f'mkm_database_{date_stamp}.csv' in  file_list:  # check to see if today's full file exists
-        print('Full database exists deleting partial files')
-        for written_file in file_list:
-            if 'Partial_' in written_file:
-                os.remove(written_file)
-        print('Partial files deleted')
+        print('Full database exists deleting partial files')  # GUI
+        for written_file in file_list:  # for every file in the file folder
+            if 'Partial_' in written_file:  # if this file is a partial file / i.e. not total database
+                os.remove(written_file)  # delete the file form the directory
+        print('Partial files deleted')  # GUI
     else:
-        print('Error full database does not exist for the day, incremental files retained')
+        print('Error full database does not exist for the day, incremental files retained')  # GUI
 
 ########################################################################################################################
 
