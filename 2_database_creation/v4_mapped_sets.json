@@ -180,87 +180,87 @@
  },
  {
    "mtgjson_set_code": "DDH",
-   "mkm_web_name": "Duel-Decks-Ajani-vs.-Nicol-Bolas"
+   "mkm_web_name": "Duel-Decks-Ajani-vs-Nicol-Bolas"
  },
  {
    "mtgjson_set_code": "DDQ",
-   "mkm_web_name": "Duel-Decks-Blessed-vs.-Cursed"
+   "mkm_web_name": "Duel-Decks-Blessed-vs-Cursed"
  },
  {
    "mtgjson_set_code": "DDC",
-   "mkm_web_name": "Duel-Decks-Divine-vs.-Demonic"
+   "mkm_web_name": "Duel-Decks-Divine-vs-Demonic"
  },
  {
    "mtgjson_set_code": "DDO",
-   "mkm_web_name": "Duel-Decks-Elspeth-vs.-Kiora"
+   "mkm_web_name": "Duel-Decks-Elspeth-vs-Kiora"
  },
  {
    "mtgjson_set_code": "DDF",
-   "mkm_web_name": "Duel-Decks-Elspeth-vs.-Tezzeret"
+   "mkm_web_name": "Duel-Decks-Elspeth-vs-Tezzeret"
  },
  {
    "mtgjson_set_code": "EVG",
-   "mkm_web_name": "Duel-Decks-Elves-vs.-Goblins"
+   "mkm_web_name": "Duel-Decks-Elves-vs-Goblins"
  },
  {
    "mtgjson_set_code": "DDU",
-   "mkm_web_name": "Duel-Decks-Elves-vs.-Inventors"
+   "mkm_web_name": "Duel-Decks-Elves-vs-Inventors"
  },
  {
    "mtgjson_set_code": "DDD",
-   "mkm_web_name": "Duel-Decks-Garruk-vs.-Liliana"
+   "mkm_web_name": "Duel-Decks-Garruk-vs-Liliana"
  },
  {
    "mtgjson_set_code": "DDL",
-   "mkm_web_name": "Duel-Decks-Heroes-vs.-Monsters"
+   "mkm_web_name": "Duel-Decks-Heroes-vs-Monsters"
  },
  {
    "mtgjson_set_code": "DDJ",
-   "mkm_web_name": "Duel-Decks-Izzet-vs.-Golgari"
+   "mkm_web_name": "Duel-Decks-Izzet-vs-Golgari"
  },
  {
    "mtgjson_set_code": "DD2",
-   "mkm_web_name": "Duel-Decks-Jace-vs.-Chandra"
+   "mkm_web_name": "Duel-Decks-Jace-vs-Chandra"
  },
  {
    "mtgjson_set_code": "DDM",
-   "mkm_web_name": "Duel-Decks-Jace-vs.-Vraska"
+   "mkm_web_name": "Duel-Decks-Jace-vs-Vraska"
  },
  {
    "mtgjson_set_code": "DDG",
-   "mkm_web_name": "Duel-Decks-Knights-vs.-Dragons"
+   "mkm_web_name": "Duel-Decks-Knights-vs-Dragons"
  },
  {
    "mtgjson_set_code": "DDT",
-   "mkm_web_name": "Duel-Decks-Merfolk-vs.-Goblins"
+   "mkm_web_name": "Duel-Decks-Merfolk-vs-Goblins"
  },
  {
    "mtgjson_set_code": "DDS",
-   "mkm_web_name": "Duel-Decks-Mind-vs.-Might"
+   "mkm_web_name": "Duel-Decks-Mind-vs-Might"
  },
  {
    "mtgjson_set_code": "DDR",
-   "mkm_web_name": "Duel-Decks-Nissa-vs.-Ob-Nixilis"
+   "mkm_web_name": "Duel-Decks-Nissa-vs-Ob-Nixilis"
  },
  {
    "mtgjson_set_code": "DDE",
-   "mkm_web_name": "Duel-Decks-Phyrexia-vs.-The-Coalition"
+   "mkm_web_name": "Duel-Decks-Phyrexia-vs-The-Coalition"
  },
  {
    "mtgjson_set_code": "DDK",
-   "mkm_web_name": "Duel-Decks-Sorin-vs.-Tibalt"
+   "mkm_web_name": "Duel-Decks-Sorin-vs-Tibalt"
  },
  {
    "mtgjson_set_code": "DDN",
-   "mkm_web_name": "Duel-Decks-Speed-vs.-Cunning"
+   "mkm_web_name": "Duel-Decks-Speed-vs-Cunning"
  },
  {
    "mtgjson_set_code": "DDI",
-   "mkm_web_name": "Duel-Decks-Venser-vs.-Koth"
+   "mkm_web_name": "Duel-Decks-Venser-vs-Koth"
  },
  {
    "mtgjson_set_code": "DDP",
-   "mkm_web_name": "Duel-Decks-Zendikar-vs.-Eldrazi"
+   "mkm_web_name": "Duel-Decks-Zendikar-vs-Eldrazi"
  },
  {
    "mtgjson_set_code": "DPA",
@@ -368,7 +368,7 @@
  },
  {
    "mtgjson_set_code": "GS1",
-   "mkm_web_name": "Global-Series-Jiang-Yanggu-&-Mu-Yanling"
+   "mkm_web_name": "Global-Series-Jiang-Yanggu-Mu-Yanling"
  },
  {
    "mtgjson_set_code": "GPT",
@@ -408,7 +408,7 @@
  },
  {
    "mtgjson_set_code": "ITP",
-   "mkm_web_name": "Introductory-Two-Player-Set"
+   "mkm_web_name": "Introductory-TwoPlayer-Set"
  },
  {
    "mtgjson_set_code": "INV",
@@ -572,7 +572,7 @@
  },
  {
    "mtgjson_set_code": "PD2",
-   "mkm_web_name": "Premium-Deck-Series-Fire-&-Lightning"
+   "mkm_web_name": "Premium-Deck-Series-Fire-Lightning"
  },
  {
    "mtgjson_set_code": "PD3",
