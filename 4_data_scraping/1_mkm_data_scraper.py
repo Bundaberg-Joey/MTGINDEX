@@ -68,28 +68,30 @@ def main():
     final database to a differently named file (file stamped with date of scraping).
     :return: a database of all scraped card info
     """
-    set_list = ['Guilds-of-Ravnica']  # list of mkm sets that will be parsed
+    set_list = ['Guilds-of-Ravnica', 'Aether-Revolt']  # list of mkm sets that will be parsed
 
     os.chdir('../4_data_scraping/mkm_Databases')
-
-    df = pd.DataFrame()  # initialise empty dataframe
 
     date_stamp = datetime.now().strftime("%Y%m%d")  # dated filename
     file_headers = ['card_desc', 'nf_shinv', 'nf_upeur', 'f_shinv', 'f_upeur']  # order of columns to write file
 
+    df = pd.DataFrame()  # initialise empty dataframe
+    partial_count = 1  # keep track of partial files created
     for mkm_set in set_list:  # for every mkm set in the list of mapped sets
         set_df = price_set_scraper(mkm_set)  # pandas df containing the data for a passed set code
         df = df.append(set_df)  # add to main df to be eventually written
-        df.to_csv(f'Partial_{date_stamp}.csv', index=False, columns=file_headers)  # write to file with given name
+        df.to_csv(f'Partial_{date_stamp}_{partial_count}.csv', index=False, columns=file_headers)  # write to csv file
+        partial_count +=1  # update partial file tracker
 
     df.to_csv(f'mkm_database_{date_stamp}.csv', index=False, columns=file_headers)  # write to file with given name
 
     file_list = [i for i in os.listdir(os.getcwd())]  # list of all files stored in the price database folder
     if f'mkm_database_{date_stamp}.csv' in  file_list:  # check to see if today's full file exists
-        print('Full database exists, incremental files deleted')
+        print('Full database exists deleting partial files')
         for written_file in file_list:
             if 'Partial_' in written_file:
                 os.remove(written_file)
+        print('Partial files deleted')
     else:
         print('Error full database does not exist for the day, incremental files retained')
 
