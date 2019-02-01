@@ -53,7 +53,7 @@ cmc = [i for i in range(1,17)] + [1000000] # max of 16 in mtg. Filter works for 
 # 67584 combinations although I reckon a load of them aren't going to be filled
 
 
-# Need to rewrite because of dictionarys being used
+# Need to rewrite because of dictionaries being used
 os.chdir('../3_benchmark_creation/benchmark_criteria_files')
 for mana in cmc:
     for colour in colour_ids:
