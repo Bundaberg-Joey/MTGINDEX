@@ -80,6 +80,7 @@ def main():
     for mkm_set in mkm_set_list:  # for every mkm set in the list of mapped sets
         set_df = price_set_scraper(mkm_set)  # pandas df containing the data for a passed set code
         df = df.append(set_df)  # add to main df to be eventually written
+        df = df.drop_duplicates(keep='first')  # strips duplicates from multiple mapped card sets
         df.to_csv(f'Partial_{date_stamp}_{partial_count}.csv', index=False, columns=file_headers)  # write to csv file
         partial_count +=1  # update partial file tracker
 
