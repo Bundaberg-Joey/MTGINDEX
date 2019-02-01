@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from collections import Counter
 import ast
+import os
 
 ########################################################################################################################
 
@@ -47,23 +48,24 @@ def card_abilities(json_url):
 ########################################################################################################################
 colour_ids = card_colour_ids('../2_database_creation/Card_Databases/Card_Database_421_20190121_2205.csv', 'colorIdentity')  # Dict as per above function, no issue with pd filtering
 abilities = card_abilities('https://mtgjson.com/json/Keywords.json') # This can be filtered for in benchmark creation
-cmc = [i for i in range(0,17)] + [1000000] # max of 16 in mtg. Filter works for pd filtering. max due to one UNH card
+cmc = [i for i in range(1,17)] + [1000000] # max of 16 in mtg. Filter works for pd filtering. max due to one UNH card
 
 # 67584 combinations although I reckon a load of them aren't going to be filled
 
 
 # Need to rewrite because of dictionarys being used
+os.chdir('../3_benchmark_creation/benchmark_criteria_files')
 for mana in cmc:
-	for colour in colour_ids:
-		for ability in abilities:
-			file_name = f'{mana}_{colour}_{ability}.json'  # issue is being able to properly contain the criteria in the filename
-			print(file_name)
-			#cm = {'attribute': 'cmc', 'operation': '=', 'value': mana}
-			#col = {'attribute': 'color', 'operation': '=', 'value': colour_ids[colour]}
-			#crp = {'attribute': 'text', 'operation': 'contain', 'value': abilities[ability]}
-			#to_write = [cm, col, crp]
-			#with open(file_name, 'w') as f:
-			#	f.writelines(json.dumps(to_write))
+    for colour in colour_ids:
+        for ability in abilities:
+            file_name = f'{mana}_{colour}_{ability}.json'  # issue is being able to properly contain the criteria in the filename
+            print(file_name)
+            cm = {'attribute': 'convertedManaCost', 'operation': '=', 'value': mana}
+            col = {'attribute': 'colorIdentity', 'operation': '=', 'value': colour_ids[colour]}
+            crp = {'attribute': 'text', 'operation': 'contain', 'value': abilities[ability]}
+            to_write = [cm, col, crp]
+            with open(file_name, 'w') as f:
+                f.writelines(json.dumps(to_write))
 
 
 
