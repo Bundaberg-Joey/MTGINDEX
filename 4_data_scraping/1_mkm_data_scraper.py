@@ -18,8 +18,8 @@ def mkm_data_scraper(mkm_url):
 
     card_desc = [i.find('a')['href'] for i in soup.find_all('div', class_='col-12 col-md-8 px-2 flex-column')[1:]]
 
-    nf_shinv = [i.get_text() for i in soup.find_all('span', class_='d-none d-md-inline')[4:]]  # non foil availability
-    nf_price_tags = [i for i in soup.find_all('div', class_='col-price pr-2')[1:]]  # non price tags
+    nf_shinv = [i.get_text() for i in soup.find_all('span', class_='d-none d-md-inline')[4:] if i.get_text() != '']
+    nf_price_tags = [i for i in soup.find_all('div', class_='col-price pr-sm-2')[1:]]  # non price tags
     nf_upeur = [i.get_text().replace(',', '.').split(' ')[0] for i in nf_price_tags]  # non foil prices (euros)
 
     f_shinv = [i.get_text() for i in soup.find_all('div', class_='col-availability d-none d-md-flex')[1:]]  # foil av
