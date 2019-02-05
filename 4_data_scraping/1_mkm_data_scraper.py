@@ -100,3 +100,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# TODO : Look into multiprocessing to speed up the scraping of the pages here https://medium.com/python-pandemonium/how-to-speed-up-your-python-web-scraper-by-using-multiprocessing-f2f4ef838686
