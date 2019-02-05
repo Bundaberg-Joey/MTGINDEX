@@ -17,7 +17,7 @@ def set_df_builder(set_code, set_code_header):
     :return: a pandas Dataframe containing all the card information for each set
     """
     page = requests.get(f'https://mtgjson.com/json/{set_code}.json')  # URL for json page
-    set_cards_json = json.loads(page.content)['cards']  # convert page to JSON and then read relevant section
+    set_cards_json = page.json()['cards']  # convert page to JSON and then read relevant section
     set_df = json_normalize(set_cards_json)  # normalize the JSON from the URL and write to pandas Dataframe
     set_df[set_code_header] = set_code  # add the mtgjson set code as a separate column to the dataframe
     return set_df
