@@ -19,7 +19,8 @@ def current_mtgjson_version(json_url):
 
 def main():
     """Takes version from mtgjson and compares against stored build version. if difference then prompts user"""
-    with open('build_version.json', 'r') as f:
+    build_version_location = '../../MTGINDEX/MTREFS/build_version.json'
+    with open(build_version_location, 'r') as f:
         build_version = json.loads(f.read())['Build']  # loads locally stored build number for comparison
 
     mtgjson_version = current_mtgjson_version('https://mtgjson.com/json/version.json')

@@ -1,6 +1,6 @@
 import requests  # required to fetch the web pages containing the JSON formatted MTG set data
 import json  # required to parse JSON data and convert to pandas readable form
-from pandas.io.json import json_normalize  # used to easily convert the downloaded json data
+from pandas.io.json import json_normalize  # used to easily convert the downloaded json data from mtgjson
 import pandas as pd  # required to manipulate json and write to local file
 from datetime import datetime  # used for writing the datetime stamp on the output file name
 import os  # used in saving file to other folders
@@ -32,10 +32,10 @@ def mkm_syntax_fixer(card_name):
     :param card_name: a string potentially containing string elements which need to be updated
     :return: a string where any string elements present in the below dictionary will have been converted to the fix
     """
-    syntax_fixes = {" ": "-", ":": "", "'": "-", ".": "", ",": "", "--": "-"}
-    for fix in syntax_fixes:
-        if fix in card_name:
-            card_name = card_name.replace(fix, syntax_fixes[fix])
+    syntax_fixes = {" ": "-", ":": "", "'": "-", ".": "", ",": "", "--": "-"}  # dict of present:replacement
+    for fix in syntax_fixes:  # for every punctuation key in the syntax list
+        if fix in card_name:  # if this bit of punctuation is present
+            card_name = card_name.replace(fix, syntax_fixes[fix])  # replace with the appropriate fix
     return card_name
 
 
@@ -74,7 +74,7 @@ def database_info():
     page = requests.get('https://mtgjson.com/json/version.json')
     version = json.loads(page.content)['version']  # takes mtgjson version from their website
     timestamp = datetime.now().strftime('%Y%m%d_%H%M')  # generates time stamp for the database file
-    build_name = f'Card_Database_{version.replace(".", "")}_{timestamp}.csv'  # filename for new build
+    build_name = 'MTCARD_{}_{}.csv'.format(version.replace(".", ""),timestamp)  # filename for new build
     return build_name, version
 
 
@@ -88,13 +88,13 @@ def main():
     and used to create URLs to the card's corresponding mkm page. This df is then saved to a csv and the local build
     version stored is updated.
     """
-    h1, h2, h3, h4, h5 = ('mtgjson_set_code','name','mkm_name', 'mkm_web_name', 'mkm_url')  # cols referenced frequently
+    h1, h2, h3, h4, h5 = ('mtgjson_set_code','name','mkm_name', 'mkm_web_name', 'mkm_map')  # cols referenced frequently
 
-    mapping_df = pd.read_json('v4_mapped_sets.json')  # file of mtgjson sets that have been mapped to mkm
+    mapping_df = pd.read_json('../../MTGINDEX/MTREFS/mapped_mtgjson_sets.json')  # mtgjson sets mapped to mkm
     set_code_list = mapping_df[h1]  # list of mtgjson set codes mapped to mkm
 
     df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
-    for mtgjson_set in set_code_list:  # for every set code in the list of mapped sets
+    for mtgjson_set in set_code_list[:2]:  # for every set code in the list of mapped sets
         print(f'Now processing {mtgjson_set}')  # GUI
         set_df = set_df_builder(mtgjson_set, h1)  # constructs the dataframe of each individual set, column name passed
         set_df[h3] = card_name_corrector(set_df[h2])  # create column containing names corrected for mkm
@@ -105,11 +105,11 @@ def main():
     df[h5] = url_prefix + df[h4] + '/' + df[h3]  # mkm URL used to access any mapped mtg card
 
     database_name, build_version = database_info()  # unpack variables for file name and build version
-    os.chdir('../2_database_creation/Card_Databases')  # change directory for saving file
+    os.chdir('../../MTGINDEX/MTCARDS')  # change directory for saving file
     df.to_csv(database_name, index=False)  # save this data frame to appropriately named CSV file.
 
-    with open('../../1_update_check/build_version.json', 'w') as f:  # used to update the stored build version
-        f.write(json.dumps({"Build": build_version}, indent=4))  # writes build version to the file
+    with open('../../MTGINDEX/MTREFS/build_version.json', 'w') as f:  # used to update the stored build version
+        f.write(json.dumps({"Build": build_version}))  # writes build version to the file
 
 
 ########################################################################################################################
