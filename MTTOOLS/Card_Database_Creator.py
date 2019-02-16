@@ -94,7 +94,7 @@ def main():
     set_code_list = mapping_df[h1]  # list of mtgjson set codes mapped to mkm
 
     df = pd.DataFrame()  # empty dataframe that will contain all collected mtgjson card sets
-    for mtgjson_set in set_code_list[:2]:  # for every set code in the list of mapped sets
+    for mtgjson_set in set_code_list:  # for every set code in the list of mapped sets
         print(f'Now processing {mtgjson_set}')  # GUI
         set_df = set_df_builder(mtgjson_set, h1)  # constructs the dataframe of each individual set, column name passed
         set_df[h3] = card_name_corrector(set_df[h2])  # create column containing names corrected for mkm
