@@ -18,22 +18,17 @@ def current_mtgjson_version(json_url):
 
 
 def main():
-    """Takes version from mtgjson and compares against stored build version. if difference then prompts user"""
-    build_version_location = '../../MTGINDEX/MTREFS/build_version.json'
-    with open(build_version_location, 'r') as f:
+    """Takes version from mtgjson and compares against stored build version. Returns True if the versions match,
+    otherwise it returns false
+    :return : Boolean, True if build version and mtgjson version match
+    """
+    with open('../../MTGINDEX/MTREFS/build_version.json', 'r') as f:
         build_version = json.loads(f.read())['Build']  # loads locally stored build number for comparison
-
-    mtgjson_version = current_mtgjson_version('https://mtgjson.com/json/version.json')
-    print(f'MTGJSON_version = {mtgjson_version}')  # GUI
-    print(f'Build_version = {build_version}')  # GUI
-
-    if  mtgjson_version == build_version:
-        print('Build and Online Versions Match.')  # no need to recreate local database
-    else:
-        print('Build Version does not equal MTGJSON version')  # should update local db (build version updates during)
+    mtgjson_version = current_mtgjson_version('https://mtgjson.com/json/version.json')  # online version
+    return True if mtgjson_version == build_version else False
 
 
 ########################################################################################################################
 
 if __name__ == '__main__':
-    main()  # Checks to see if I need to update the main database or not due to an update of mtgjson data
+    main()
