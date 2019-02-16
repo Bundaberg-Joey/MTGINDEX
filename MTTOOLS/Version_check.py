@@ -10,7 +10,7 @@ def current_mtgjson_version(json_url):
     :return: the current online mtgjson version as a string
     """
     page = requests.get(json_url)  # online json file containing version number of mtgjson online
-    mtgjson_online_version = json.loads(page.content)['version']  # parse json to retrieve the online version number
+    mtgjson_online_version = page.json()['version']  # parse json to retrieve the online version number
     return mtgjson_online_version
 
 
