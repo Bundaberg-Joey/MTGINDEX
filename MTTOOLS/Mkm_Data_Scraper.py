@@ -64,8 +64,8 @@ def main():
     :return: Written file of the day's prices
     """
     df = pd.DataFrame()  # initialise empty dataframe
-    page_list = pages_to_scrape()
-    for entry in page_list[:1]:
+    page_list = pages_to_scrape()  # list of integers to be used in scraping url
+    for entry in page_list:
         print('Scraping {} of {}'.format(entry, page_list[-1]))
         url_to_scrape = 'https://www.cardmarket.com/en/Magic/Products/Singles?perSite=50&site={}'.format(entry)
         entry_df = mkm_data_scraper(url_to_scrape)  # transient pandas df created for the passed url
