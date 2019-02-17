@@ -72,13 +72,13 @@ def main():
     :return: csv file, The scraped data is organised into a csv file and then written to MTDATA folder
     """
     page_list = pages_to_scrape()  # list of mkm urls to scrape (50 cards per page)
-    with Pool(10) as p:
-        scraped_pages_df = p.map(mkm_data_scraper, page_list)
+    with Pool(10) as p:  # while running 10 processes at once
+        scraped_pages_df = p.map(mkm_data_scraper, page_list)  # apply function to list of urls and save to list
 
-    df = pd.DataFrame()
-    for partial_df in scraped_pages_df:
-        df = df.append(partial_df, ignore_index=True)
-    df = df.drop_duplicates(keep='first')
+    df = pd.DataFrame()  # initialise empty dataframe
+    for partial_df in scraped_pages_df:  # for every dataframe created from scraping mkm
+        df = df.append(partial_df, ignore_index=True)  # append to the main df
+    df = df.drop_duplicates(keep='first')  # remove potential duplicates
 
     os.chdir('../../MTGINDEX/MTDATA')  # change directory to where mtgjson card databases are stored
     date_stamp = datetime.now().strftime("%Y%m%d")  # date for filename
