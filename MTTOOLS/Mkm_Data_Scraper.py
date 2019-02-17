@@ -3,20 +3,22 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import pandas as pd
 import os
+from multiprocessing import Pool
 ########################################################################################################################
 
 
 def pages_to_scrape():
     """
-    scrapes the first page of the mkm singles listing, finds how many pages there are and creates a list of numbers
-    for use in later links
-    :return: list of numbers to be used in later scraping
+    scrapes the first page of the mkm singles listing, finds how many pages there are and creates a list of the mkm
+    urls needed to scrape. Scraping the first page allows for dynamic generation of the required urls.
+    :return: list, urls that need to be scraped
     """
-    page = requests.get('https://www.cardmarket.com/en/Magic/Products/Singles?perSite=50&site=1')  # first page of mkm singles, 50 per page
-    soup = BeautifulSoup(page.content, 'html.parser')  # bs4 object
+    default_url = 'https://www.cardmarket.com/en/Magic/Products/Singles?perSite=50&site='
+    page = requests.get(F'{default_url}{1}')  # first page of mkm singles, 50 cards listed per page
+    soup = BeautifulSoup(page.content, 'html.parser')
     pages_tag = soup.find(attrs={'class':'mx-1'}).get_text()  # find string listing "Page 1 of xyz"
-    max_pages = int(pages_tag.split(' ')[-1])  # extract 'xyz' and convert to int
-    page_list = list(range(1,max_pages+1))  # create list of integers from 1 to and including above int
+    max_pages = int(pages_tag.split(' ')[-1])  # extract string 'xyz' from above and convert to int xyz
+    page_list = [F'{default_url}{i}' for i in range(1,max_pages+1)]  # dynamically generate page list
     return page_list
 
 
@@ -27,9 +29,15 @@ def mkm_data_scraper(mkm_url):
     """
     given a link to mkm list of prices (set table not individual cards) will pull the foil and non foil data for them
     and return the data in a dictionary for further writing with pandas
-    :param mkm_url:  url link to the mkm page in question
-    :return: pd.DaataFrame of hardcoded key and list value
+    :param mkm_url:  string, url link to the mkm page in question
+    :return: pd.DataFrame , hardcoded key and list value
+                mkm_map =  mkm card url, use to map card info between MTCARD and MTDATA
+                nf_shinv = number of non foil cards currently available on mkm
+                nf_upeur = price trend of non foil cards currently available on mkm (Euros)
+                f_shinv = number of foil cards available on mkm
+                f_upeur = price trend of foil cards available on mkm (Euros)
     """
+    print(F'Scraping {mkm_url}')  # GUI
     page = requests.get(mkm_url)
     soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -46,11 +54,11 @@ def mkm_data_scraper(mkm_url):
 
     date_stamp = datetime.now().strftime("%Y%m%d")  # date for column
 
-    scraped_df = pd.DataFrame({'mkm_map': mkm_card_hrefs,  # mkm card url, use to map between mtgjson and other prices
-                                f'nf_shinv_{date_stamp}': nf_shinv,  # date stamp column for time series analysis
-                                f'nf_upeur_{date_stamp}': nf_upeur,
-                                f'f_shinv_{date_stamp}': f_shinv,
-                                f'f_upeur_{date_stamp}': f_upeur})
+    scraped_df = pd.DataFrame({'mkm_map': mkm_card_hrefs,
+                                F'nf_shinv_{date_stamp}': nf_shinv,  # date stamp column for time series analysis
+                                F'nf_upeur_{date_stamp}': nf_upeur,
+                                F'f_shinv_{date_stamp}': f_shinv,
+                                F'f_upeur_{date_stamp}': f_upeur})
 
     return scraped_df
 
@@ -61,25 +69,23 @@ def mkm_data_scraper(mkm_url):
 def main():
     """
     Scrapes the mkm singles list and saves information to a pandas dataframe which is later written to a local file
-    :return: Written file of the day's prices
+    :return: csv file, The scraped data is organised into a csv file and then written to MTDATA folder
     """
-    df = pd.DataFrame()  # initialise empty dataframe
-    page_list = pages_to_scrape()  # list of integers to be used in scraping url
-    for entry in page_list:
-        print('Scraping {} of {}'.format(entry, page_list[-1]))
-        url_to_scrape = 'https://www.cardmarket.com/en/Magic/Products/Singles?perSite=50&site={}'.format(entry)
-        entry_df = mkm_data_scraper(url_to_scrape)  # transient pandas df created for the passed url
-        df = df.append(entry_df, ignore_index=True)  # add to main df to be eventually written
-    df = df.drop_duplicates(keep='first')  # strips duplicates from multiple mapped card sets
+    page_list = pages_to_scrape()  # list of mkm urls to scrape (50 cards per page)
+    with Pool(10) as p:
+        scraped_pages_df = p.map(mkm_data_scraper, page_list)
+
+    df = pd.DataFrame()
+    for partial_df in scraped_pages_df:
+        df = df.append(partial_df, ignore_index=True)
+    df = df.drop_duplicates(keep='first')
 
     os.chdir('../../MTGINDEX/MTDATA')  # change directory to where mtgjson card databases are stored
     date_stamp = datetime.now().strftime("%Y%m%d")  # date for filename
-    df.to_csv('MTDATA_{}.csv'.format(date_stamp), index=False)  # write to filename
+    df.to_csv(F'MTDATA_{date_stamp}.csv', index=False)  # write to filename
 
 
 ########################################################################################################################
 
 if __name__ == '__main__':
     main()
-
-# TODO : Look into multiprocessing to speed up the scraping of the pages here https://medium.com/python-pandemonium/how-to-speed-up-your-python-web-scraper-by-using-multiprocessing-f2f4ef838686
