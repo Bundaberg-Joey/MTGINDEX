@@ -37,7 +37,7 @@ def mkm_data_scraper(mkm_url):
                 f_shinv = number of foil cards available on mkm
                 f_upeur = price trend of foil cards available on mkm (Euros)
     """
-    print(F'Scraping {mkm_url}')  # GUI
+    print(F'  >>> Scraping {mkm_url}')  # GUI
     page = requests.get(mkm_url)
     soup = BeautifulSoup(page.content, 'html.parser')
 
