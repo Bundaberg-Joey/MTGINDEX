@@ -9,7 +9,7 @@ working within the financial services sector. (As this was the first acual pytho
 
 ## Structure:
 
-**MTTOOLS** contains the python scripts that are imported into the main MTRUNNER.py script:
+**MTTOOLS** contains the python scripts that are imported into the main.py script:
   
   ```Card_Database_Creator.py``` : Using the freely available [MTGJSON](https://mtgjson.com/) website, this script creates a local database file of all mapped MTG cards, listing all available properties
   
