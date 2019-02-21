@@ -869,5 +869,29 @@
  {
    "mtgjson_set_code": "GK1",
    "mkm_web_name": "Guilds-of-Ravnica-Guild-Kits"
+ },
+ {
+   "mtgjson_set_code": "PRWK",
+   "mkm_web_name": "Ravnica-Weekend-Promos"
+ },
+ {
+   "mtgjson_set_code": "UMA",
+   "mkm_web_name": "Ultimate-Masters"
+ },
+ {
+   "mtgjson_set_code": "PUMA",
+   "mkm_web_name": "Ultimate-Box-Toppers"
+ },
+ {
+   "mtgjson_set_code": "RNA",
+   "mkm_web_name": "Ravnica-Allegiance"
+ },
+ {
+   "mtgjson_set_code": "PF19",
+   "mkm_web_name": "MagicFest-Promos"
+ },
+ {
+   "mtgjson_set_code": "GK2",
+   "mkm_web_name": "Ravnica-Allegiance-Guild-Kits"
  }
 ]
