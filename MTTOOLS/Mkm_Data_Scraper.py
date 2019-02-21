@@ -84,6 +84,8 @@ def main():
     date_stamp = datetime.now().strftime("%Y%m%d")  # date for filename
     df.to_csv(F'MTDATA_{date_stamp}.csv', index=False)  # write to filename
     print(F'  >>> MTDATA is size {df.shape}')
+    print(df.head())
+    print(df.tail())
 
 ########################################################################################################################
 
