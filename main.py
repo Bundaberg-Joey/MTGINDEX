@@ -1,7 +1,6 @@
 import os
-from MTTOOLS import Version_check
-from MTTOOLS import Card_Database_Creator
-from MTTOOLS import Mkm_Data_Scraper
+from MTTOOLS import Version_check, Mkm_Data_Scraper, Card_Database_Creator
+
 
 ########################################################################################################################
 
