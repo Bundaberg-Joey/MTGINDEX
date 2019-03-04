@@ -1,5 +1,8 @@
 import os
-from MTTOOLS import Version_check, Mkm_Data_Scraper, Card_Database_Creator
+from MTTOOLS import Version_check
+from MTTOOLS import Mkm_Data_Scraper
+from MTTOOLS import Card_Database_Creator
+from MTTOOLS import Mkm_set_checker
 
 
 ########################################################################################################################
@@ -8,7 +11,8 @@ from MTTOOLS import Version_check, Mkm_Data_Scraper, Card_Database_Creator
 def main():
     """
     MTGINDEX program file. Checks versions match and builds MTCARD database if versions do not match. Script then
-    continues to scrape MKM in order to generate the daily MTDATA file
+    continues to scrape MKM in order to generate the daily MTDATA file. Also checks to see if a new set is listed on
+    Mkm so I can update the mapping
     :return: No value returned, however MTDATA file generated daily and MTCARD file generated when required
     """
 
@@ -24,6 +28,9 @@ def main():
     print(' >> Generating MTDATA')  # GUI
     Mkm_Data_Scraper.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTDATA
     print('  >>> MTDATA File Built')  # GUI
+
+    if Mkm_set_checker.main() == False:
+        print(' >> New card set is listed on MKM, consider updating the mapping')
 
 ########################################################################################################################
 
