@@ -17,6 +17,7 @@ working within the financial services sector. (As this was the first acual pytho
   
   ```Mkm_Data_Scraper.py``` : Based on mapping conducted between MTGJSON and [Magic Card Market (MKKM)](https://www.cardmarket.com/en/Magic), the mkm website is scraped to retrieve the daily price trends and numbers of cards available (UPEUR and SHINV respectively)
   
+  ```Mkm_set_checker.py``` : As the sets between MTGJSON and MKM need to be mapped, this checks to see if the mapping should be updated
   
   **MTREFS** is used to store all locally referred to files (i.e. local build number for ```Version_check.py```)
   
