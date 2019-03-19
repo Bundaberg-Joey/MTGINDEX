@@ -41,15 +41,15 @@ def mkm_data_scraper(mkm_url):
     page = requests.get(mkm_url)
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    mkm_card_hrefs = [i.find('a')['href'] for i in soup.find_all('div', class_='col-12 col-md-8 px-2 flex-column')[1:]]
+    mkm_card_hrefs = [i.find('a')['href'] for i in soup.find_all('div', class_='col-10 col-md-8 px-2 flex-column')[1:]]
     # mkm's internal url for the card, can use these to map the cards between dates and mtgjson
 
     nf_shinv = [i.get_text() for i in soup.find_all('span', class_='d-none d-md-inline')[4:] if i.get_text() != '']
     nf_price_tags = [i for i in soup.find_all('div', class_='col-price pr-sm-2')[1:]]  # non price tags
     nf_upeur = [i.get_text().replace(',', '.').split(' ')[0] for i in nf_price_tags]  # non foil prices (euros)
 
-    f_shinv = [i.get_text() for i in soup.find_all('div', class_='col-availability d-none d-md-flex')[1:]]  # foil av
-    f_price_tags = [i for i in soup.find_all('div', class_='col-price d-none d-md-flex')[1:]]  # foil price tags
+    f_shinv = [i.get_text() for i in soup.find_all('div', class_='col-availability d-none d-lg-flex')[1:]]  # foil av
+    f_price_tags = [i for i in soup.find_all('div', class_='col-price d-none d-lg-flex pr-lg-2')[1:]]  # foil price tags
     f_upeur = [i.get_text().replace(',', '.').split(' ')[0] for i in f_price_tags]  # foil prices (euros)
 
     date_stamp = datetime.now().strftime("%Y%m%d")  # date for column
