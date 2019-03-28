@@ -1,7 +1,7 @@
 # MTGINDEX
 
 ## About:
-MTGINDEX seeks to take the underlying methodology used in financial benchmarking (i.e. the [MSCI](https://www.msci.com/eqb/methodology/meth_docs/MSCI_IndexCalcMethodology_Jan2019.pdf),SP500 and NASDAQ benchmarks) and apply it to the sales from the Magic the Gathering game.
+MTGINDEX seeks to take the underlying methodology used in financial benchmarking (i.e. the [MSCI](https://www.msci.com/eqb/methodology/meth_docs/MSCI_IndexCalcMethodology_Jan2019.pdf) ,SP500 and NASDAQ benchmarks) and apply it to the sales from the Magic the Gathering game.
 Magic the Gathering (MTG) was chosen as the instrument being traded as currently a great deal of [speculation is conducted on individual card prices](https://www.reddit.com/r/mtgfinance/) rather assessing the movement of classess of cards (overall a more efficient analysis). 
 
 The current focus of the project is shifting to developing a dataset that would allow me to start working with ML algorithms for personal developement with the wider scientific python library (i.e. Numpy, SckitLearn and TensorFlow) as the project was intitially created to allow me to gain experience working with python. The prior knowledge required for constructing the benchmarks themselves is taken from my prior experience
