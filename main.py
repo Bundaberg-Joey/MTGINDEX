@@ -2,7 +2,7 @@ import os
 from MTTOOLS import Version_check
 from MTTOOLS import Mkm_Data_Scraper
 from MTTOOLS import Card_Database_Creator
-from MTTOOLS import Mkm_set_checker
+from MTTOOLS import Hosted_Set_Checker
 
 
 ########################################################################################################################
@@ -29,8 +29,8 @@ def main():
     Mkm_Data_Scraper.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTDATA
     print('  >>> MTDATA File Built')  # GUI
 
-    if Mkm_set_checker.main() == False:
-        print(' >> New card set is listed on MKM, consider updating the mapping')
+    if Hosted_Set_Checker.main() == False:
+        print(' >> New card set listed, consider updating the mapping')
 
 ########################################################################################################################
 
