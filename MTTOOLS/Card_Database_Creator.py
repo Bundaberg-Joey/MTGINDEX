@@ -40,9 +40,9 @@ def main():
     df = df.dropna(subset=['tcgplayerPurchaseUrl'])  # if this is blank then values cannot be mapped so no use
 
     build_name, build_version = build_info()
-    df.to_csv(F'../../MTGINDEX/MTCARDS/{build_name}', index=False)
+    df.to_csv(F'../MTCARDS/{build_name}', index=False)
 
-    with open('../../MTGINDEX/MTREFS/build_version.json', 'w') as f:  # used to update the stored build version
+    with open('../MTREFS/build_version.json', 'w') as f:  # used to update the stored build version
         f.write(json.dumps({"Build": build_version}))  # writes build version to the file
 
 
@@ -50,3 +50,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
