@@ -2,8 +2,6 @@ import os
 from MTTOOLS import Version_check
 from MTTOOLS import TCG_Data_Scraper
 from MTTOOLS import Card_Database_Creator
-from MTTOOLS import Hosted_Set_Checker
-
 
 ########################################################################################################################
 
@@ -16,7 +14,7 @@ def main():
     :return: No value returned, however MTDATA file generated daily and MTCARD file generated when required
     """
 
-    os.chdir('../MTGINDEX/MTTOOLS')  # change directory to allow MTTOOLS to function
+    os.chdir('MTTOOLS')  # change directory to allow MTTOOLS to function
     mtcard_versions_match = Version_check.main()  # Function checks if stored and online mtgjson versions match, bool
 
     if mtcard_versions_match == True:
@@ -29,8 +27,6 @@ def main():
     TCG_Data_Scraper.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTDATA
     print('  >>> MTDATA File Built')  # GUI
 
-    if Hosted_Set_Checker.main() == False:
-        print(' >> New card set listed, consider updating the mapping')
 
 ########################################################################################################################
 
