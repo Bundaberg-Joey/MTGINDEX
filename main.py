@@ -1,6 +1,6 @@
 import os
 from MTTOOLS import Version_check
-from MTTOOLS import Mkm_Data_Scraper
+from MTTOOLS import TCG_Data_Scraper
 from MTTOOLS import Card_Database_Creator
 from MTTOOLS import Hosted_Set_Checker
 
@@ -26,7 +26,7 @@ def main():
         Card_Database_Creator.main()  # Generate a new MTCARD database file, only needed when mtgjson updates ~ monthly
         print('  >>> MTCARD File Built')  # GUI
     print(' >> Generating MTDATA')  # GUI
-    Mkm_Data_Scraper.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTDATA
+    TCG_Data_Scraper.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTDATA
     print('  >>> MTDATA File Built')  # GUI
 
     if Hosted_Set_Checker.main() == False:
