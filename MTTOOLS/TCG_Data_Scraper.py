@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import pandas as pd
 from multiprocessing import Pool
+import time
 
 ########################################################################################################################
 
@@ -77,6 +78,7 @@ def tcg_data_scraper(tcg_url):
                                F'tcgBuyListMarketPrice_{date_stamp}': card_prices[1],
                                F'tcgMedianPrice_{date_stamp}': card_prices[2]})
 
+    time.sleep(10)  # 10 second delay due to tcg robots txt file
     return scraped_df
 
 
