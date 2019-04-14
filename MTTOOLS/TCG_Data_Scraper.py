@@ -88,7 +88,7 @@ def main():
     Scrapes the tcg set lists and saves the information to a pandas dataframe which is later written to a local file
     :return: csv file, The scraped data is organised into a csv file and then written to MTDATA folder
     """
-    page_list = pages_to_scrape()[:5]  # list of tcg urls to scrape
+    page_list = pages_to_scrape()  # list of tcg urls to scrape
     with Pool(10) as p:  # while running 10 processes at once
         scraped_pages_df = p.map(tcg_data_scraper, page_list)  # apply function to list of urls and save to list
 
