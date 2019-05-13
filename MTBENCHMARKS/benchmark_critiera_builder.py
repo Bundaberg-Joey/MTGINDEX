@@ -1,5 +1,4 @@
 import pandas as pd
-import json
 import os
 import requests
 
@@ -65,5 +64,18 @@ def likely_combinations(mtcard, subtypes,population_threshold):
 ########################################################################################################################
 
 df = mtcard_file('../MTCARDS/')  # most recent MTCARD df
-subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')
-combinations_to_write = likely_combinations(mtcard=df,subtypes=subtypes, population_threshold=5)
+subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
+combinations_to_write = likely_combinations(df,subtypes, population_threshold=5)  # dictionary of subtypes cmc and color
+
+count = 1  # 10708
+for a in combinations_to_write:
+    for b in combinations_to_write[a]['convertedManaCost']:
+        for c in combinations_to_write[a]['colorIdentity']:
+            print(F'Parsing {count} out of 10708:  {a} {b} {c}')
+
+            cons_df = df[df['text'].str.contains(a, na=False)]
+            cons_df = cons_df[cons_df['convertedManaCost'] == b]
+            cons_df = cons_df[cons_df['colorIdentity'] == c]
+            if cons_df.shape[0] > 0:  #write to file if non empty
+                cons_df.to_csv(F'benchmark_rebalance_files/MTGINDEX_{a}_{b}_{c}.csv')
+            count += 1
