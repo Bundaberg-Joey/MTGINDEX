@@ -63,19 +63,54 @@ def likely_combinations(mtcard, subtypes,population_threshold):
 
 ########################################################################################################################
 
-df = mtcard_file('../MTCARDS/')  # most recent MTCARD df
-subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
-combinations_to_write = likely_combinations(df,subtypes, population_threshold=5)  # dictionary of subtypes cmc and color
+def benchmark_writer(cons_master, qualifier_1, field_1, qualifier_2, field_2, benchmark_name):
+    """
+    Given two benchmark criteria and their respective fields, this function takes the main constituent database and
+    writes the benchmark to a csv file based on the passed qualifiers and fields. The qualifier(s) and field(s) are not
+    explicitly named here as mtgjson routinely updates their json formatting. Hence this allows for changes at main
+    without needing to change within the function.
+    :param cons_master: The master constituent database from the most recent mtgjson download. Contains all cons info
+    :param qualifier_1: The card type and or ability
+    :param field_1: Location of qualifier within mtgjson structure
+    :param qualifier_2: The card CMC or colouridentity
+    :param field_2: The location of qualifier within mtgjson structure
+    :param benchmark_name: Filename of benchmark (including location)
+    :return: None
+    """
+    cons_df = cons_master[cons_master[field_1].str.contains(qualifier_1, na=False)]  # filter text, ignore blanks
+    cons_df = cons_df[cons_df[field_2] == qualifier_2]  # check equality
+    cons_count = len(cons_df.index)
+    if cons_count > 0:  # prevent this writing empty benchmarks to file
+        cons_df.to_csv(benchmark_name)
 
-count = 1  # 10708
-for a in combinations_to_write:
-    for b in combinations_to_write[a]['convertedManaCost']:
-        for c in combinations_to_write[a]['colorIdentity']:
-            print(F'Parsing {count} out of 10708:  {a} {b} {c}')
 
-            cons_df = df[df['text'].str.contains(a, na=False)]
-            cons_df = cons_df[cons_df['convertedManaCost'] == b]
-            cons_df = cons_df[cons_df['colorIdentity'] == c]
-            if cons_df.shape[0] > 0:  #write to file if non empty
-                cons_df.to_csv(F'benchmark_rebalance_files/MTGINDEX_{a}_{b}_{c}.csv')
-            count += 1
+########################################################################################################################
+
+
+def main():
+    """
+    Given the most recent mtgjson constituent file and list of hosted creature types, this function will reproducibly
+    create all the MTGINDEX benchmarks that are either a combination of subtype and cmc OR combination of subtype and
+    coloridentity
+    """
+    df = mtcard_file('../MTCARDS/')  # most recent MTCARD df
+    subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
+    combinations_to_write = likely_combinations(df,subtypes, population_threshold=5)  # dict of subtypes cmc and color
+
+    mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity']  # fields used by mtgjson, prone to renaming
+    benchmark_location = 'benchmark_rebalance_files/'  # location the benchmark files will be written to
+
+    for a in combinations_to_write:
+        for b in combinations_to_write[a][mtgjson_keys[1]]:
+            print(F'Parsing:  {a} {b}')
+            benchmark_writer(df, a, mtgjson_keys[0], b, mtgjson_keys[1], F'{benchmark_location}MTGINDEX_{a}_{b}.csv')
+
+        for c in combinations_to_write[a][mtgjson_keys[2]]:
+            print(F'Parsing:  {a} {c}')
+            benchmark_writer(df, a, mtgjson_keys[0], c, mtgjson_keys[2], F'{benchmark_location}MTGINDEX_{a}_{c}.csv')
+
+
+########################################################################################################################
+
+if __name__ == '__main__':
+    main()
