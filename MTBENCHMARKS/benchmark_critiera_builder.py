@@ -71,24 +71,26 @@ def likely_combinations(mtcard, subtypes,population_threshold):
 
 ########################################################################################################################
 
-def benchmark_writer(cons_master, qualifier_1, field_1, qualifier_2, field_2, benchmark_name):
+def benchmark_writer(cons_master, benchmark_name, criteria):
     """
     Given two benchmark criteria and their respective fields, this function takes the main constituent database and
     writes the benchmark to a csv file based on the passed qualifiers and fields. The qualifier(s) and field(s) are not
     explicitly named here as mtgjson routinely updates their json formatting. Hence this allows for changes at main
     without needing to change within the function.
-    :param cons_master: The master constituent database from the most recent mtgjson download. Contains all cons info
-    :param qualifier_1: The card type and or ability
-    :param field_1: Location of qualifier within mtgjson structure
-    :param qualifier_2: The card CMC or colouridentity
-    :param field_2: The location of qualifier within mtgjson structure
-    :param benchmark_name: Filename of benchmark (including location)
-    :return: None
+    :param cons_master: Pandas.DataFrame, The master constituent database from the most recent mtgjson download. Contains all cons info
+    :param benchmark_name: str, Filename of benchmark (including location)
+    :param criteria: dict, keys are the column headers in cons file values are the text to filter column by
+    :return: None, function writes df to file
     """
-    cons_df = cons_master[cons_master[field_1].str.contains(qualifier_1, na=False)]  # filter text, ignore blanks
-    cons_df = cons_df[cons_df[field_2].str.contains(qualifier_2, na=False)]  # filter text, ignore blanks
-    cons_count = len(cons_df.index)
-    if cons_count > 0:  # prevent this writing empty benchmarks to file
+    benchmark_fields = list(criteria.keys())  # fields of all criteria to be assessed for the benchmark
+    cons_df = cons_master[cons_master[benchmark_fields[0]].str.contains(criteria[benchmark_fields[0]], na=False)]
+    #  first filtering of the df by the criteria
+
+    if len(benchmark_fields) > 1:  # if more criteria are present then iteratively apply them from the dictionary
+        for crit in benchmark_fields[1:]:
+            cons_df = cons_df[cons_df[crit].str.contains(criteria[crit], na=False)]
+
+    if len(cons_df.index) > 0:  # prevent this writing empty benchmarks to file
         cons_df.to_csv(benchmark_name)
 
 
@@ -112,12 +114,14 @@ def main():
         for b in combinations_to_write[a][mtgjson_keys[1]]:
             print(F'Parsing:  {a} {b}')
             filename = F'{benchmark_location}MTGINDEX_{a}_{b}.csv'.replace('\\', '')
-            benchmark_writer(df, a, mtgjson_keys[0], b, mtgjson_keys[1], benchmark_name=filename)
+            benchmark_criteria = {mtgjson_keys[0]:a, mtgjson_keys[1]:b}
+            benchmark_writer(df, benchmark_name=filename, criteria=benchmark_criteria)
 
         for c in combinations_to_write[a][mtgjson_keys[2]]:
             print(F'Parsing:  {a} {c}')
             filename = F'{benchmark_location}MTGINDEX_{a}_{c}.csv'.replace('\\','')
-            benchmark_writer(df, a, mtgjson_keys[0], c, mtgjson_keys[2], benchmark_name=filename)
+            benchmark_criteria = {mtgjson_keys[0]: a, mtgjson_keys[2]: c}
+            benchmark_writer(df, benchmark_name=filename, criteria=benchmark_criteria)
 
 
 ########################################################################################################################
