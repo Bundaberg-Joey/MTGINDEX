@@ -42,11 +42,15 @@ def likely_combinations(mtcard, subtypes,population_threshold):
     of 1000), this considers all subtypes, and finds the associated cmc and colour identities for those subtypes. This
     information is then returned so that the benchmark criteria files can be written. The population threshold
     allows for removal of low constituent subtypes to save further time later on.
+
+    Update: To further ensure benchmark population, benchmark colour ids are now only a list of the main colours used
+
     :param mtcard: Pandas.DataFrame, the loaded pandas df containing the card information
     :param subtypes: list, a list of all mtgjson subtypes
     :param population_threshold: int, the minimum number of constituents a single subtype can have
     :return dictionary, {subtype:'convertedManaCost':[<float list>], 'colorIdentity:[<str list>]}
     """
+    mtgjson_colours = ['R', 'W', 'B', 'U', 'G','[]']
     type_info = {a: {'convertedManaCost': [], 'colorIdentity': []} for a in subtypes}  # generate initial dict
 
     for subtype in type_info:  # for each mtgjson subtype
@@ -55,6 +59,10 @@ def likely_combinations(mtcard, subtypes,population_threshold):
             for parameter in type_info[subtype]:  # get colour and cmc values for each subtype
                 type_info[subtype][parameter] = mtcard.iloc[subtype_ind][parameter].drop_duplicates().tolist()
                 # dict values are now a list of the relevant mtcard values
+
+        subtype_colours = ''.join(type_info[subtype]['colorIdentity'])
+        updated_colours = ['\[]' if colour == '[]' else colour for colour in mtgjson_colours if colour in subtype_colours]
+        type_info[subtype]['colorIdentity'] =updated_colours
 
     combinations = {i:type_info[i] for i in type_info if type_info[i] != {'convertedManaCost': [], 'colorIdentity': []}}
     # remove subtypes which have not been modified (i.e. didn't meet threshold level) or are only singular listings
@@ -78,7 +86,7 @@ def benchmark_writer(cons_master, qualifier_1, field_1, qualifier_2, field_2, be
     :return: None
     """
     cons_df = cons_master[cons_master[field_1].str.contains(qualifier_1, na=False)]  # filter text, ignore blanks
-    cons_df = cons_df[cons_df[field_2] == qualifier_2]  # check equality
+    cons_df = cons_df[cons_df[field_2].str.contains(qualifier_2, na=False)]  # filter text, ignore blanks
     cons_count = len(cons_df.index)
     if cons_count > 0:  # prevent this writing empty benchmarks to file
         cons_df.to_csv(benchmark_name)
@@ -103,11 +111,13 @@ def main():
     for a in combinations_to_write:
         for b in combinations_to_write[a][mtgjson_keys[1]]:
             print(F'Parsing:  {a} {b}')
-            benchmark_writer(df, a, mtgjson_keys[0], b, mtgjson_keys[1], F'{benchmark_location}MTGINDEX_{a}_{b}.csv')
+            filename = F'{benchmark_location}MTGINDEX_{a}_{b}.csv'.replace('\\', '')
+            benchmark_writer(df, a, mtgjson_keys[0], b, mtgjson_keys[1], benchmark_name=filename)
 
         for c in combinations_to_write[a][mtgjson_keys[2]]:
             print(F'Parsing:  {a} {c}')
-            benchmark_writer(df, a, mtgjson_keys[0], c, mtgjson_keys[2], F'{benchmark_location}MTGINDEX_{a}_{c}.csv')
+            filename = F'{benchmark_location}MTGINDEX_{a}_{c}.csv'.replace('\\','')
+            benchmark_writer(df, a, mtgjson_keys[0], c, mtgjson_keys[2], benchmark_name=filename)
 
 
 ########################################################################################################################
