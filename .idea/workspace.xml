@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb8e7477-51a6-428d-9409-51b2f9990890" name="Default Changelist" comment="updated online set checks to also check">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Calum.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Calum.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTBENCHMARKS/1_constituent_allocator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTBENCHMARKS/benchmark_critiera_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTBENCHMARKS/benchmark_critiera_builder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTTOOLS/Benchmark_Builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTTOOLS/Benchmark_Builder.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,11 +32,25 @@
     <favorites_list name="MTGINDEX" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MTTOOLS/Benchmark_Builder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="295">
+              <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Jupyter Notebook" />
         <option value="Python Script" />
       </list>
     </option>
@@ -82,11 +100,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$APPLICATION_CONFIG_DIR$/scratches/functionalised_2.py" />
-        <option value="$PROJECT_DIR$/3_benchmark_creation/2_price_scraper.py" />
-        <option value="$PROJECT_DIR$/2_database_creation/v4_mapped_sets.json" />
-        <option value="$PROJECT_DIR$/4_data_scraping/mkm_Databases/placeholder.txt" />
-        <option value="$APPLICATION_CONFIG_DIR$/scratches/Index_Methodology.md" />
         <option value="$PROJECT_DIR$/3_benchmark_creation/benchmark_critiera_builder.py" />
         <option value="$PROJECT_DIR$/3_benchmark_creation/1_constituent_allocator.py" />
         <option value="$PROJECT_DIR$/4_data_scraping/mkm_Databases/updated_scraper.py" />
@@ -104,7 +117,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/collatz.py" />
         <option value="$PROJECT_DIR$/mess_around.py" />
         <option value="$PROJECT_DIR$/db_builder.py" />
-        <option value="$PROJECT_DIR$/MTTOOLS/db_builder.py" />
         <option value="$PROJECT_DIR$/things_to_refactor/benchmark_criteria_files/placeholder.txt" />
         <option value="$PROJECT_DIR$/things_to_refactor/benchmark_rebalance_files/placeholder.txt" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/converter.py" />
@@ -122,7 +134,6 @@
         <option value="$PROJECT_DIR$/MTREFS/hosted_set_lists.json" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/rough_working.py" />
         <option value="$PROJECT_DIR$/things_to_refactor/benchmark_critiera_builder.py" />
-        <option value="$PROJECT_DIR$/MTBENCHMARKS/benchmark_critiera_builder.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/tcg.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/db_creater_new.py" />
         <option value="$PROJECT_DIR$/MTTOOLS/Card_Database_Creator.py" />
@@ -133,6 +144,13 @@
         <option value="$PROJECT_DIR$/MTREFS/build_version.json" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/MTTOOLS/TCG_Data_Scraper.py" />
+        <option value="$PROJECT_DIR$/MTBENCHMARKS/1_constituent_allocator.py" />
+        <option value="$PROJECT_DIR$/MTBENCHMARKS/cons_assessor.py" />
+        <option value="$PROJECT_DIR$/MTBENCHMARKS/analysis.ipynb" />
+        <option value="$PROJECT_DIR$/MTBENCHMARKS/benchmark_critiera_builder.py" />
+        <option value="$PROJECT_DIR$/MTTOOLS/Benchmakr_Builder.py" />
+        <option value="$PROJECT_DIR$/MTTOOLS/db_builder.py" />
+        <option value="$PROJECT_DIR$/MTTOOLS/Benchmark_Builder.py" />
       </list>
     </option>
   </component>
@@ -225,8 +243,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="Mkm_Data_Scraper" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.Benchmark_Builder">
+    <configuration name="Benchmark_Builder" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MTGINDEX" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -239,7 +257,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\Calum\PycharmProjects\MTGINDEX\MTTOOLS\TCG_Data_Scraper.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTTOOLS/Benchmark_Builder.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -270,6 +288,50 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="benchmark_critiera_builder" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MTGINDEX" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MTBENCHMARKS" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTBENCHMARKS/benchmark_critiera_builder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cons_assessor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MTGINDEX" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MTBENCHMARKS" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTBENCHMARKS/cons_assessor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MTGINDEX" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -292,64 +354,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tcg_mapping" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="MTGINDEX" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/tcg_mapping.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="updated_price_scraping" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="MTGINDEX" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/updated_price_scraping.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.tcg_mapping" />
-      <item itemvalue="Python.updated_price_scraping" />
-      <item itemvalue="Python.Mkm_Data_Scraper" />
       <item itemvalue="Python.TCG_Data_Scraper" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.benchmark_critiera_builder" />
+      <item itemvalue="Python.cons_assessor" />
+      <item itemvalue="Python.Benchmark_Builder" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Benchmark_Builder" />
+        <item itemvalue="Python.benchmark_critiera_builder" />
+        <item itemvalue="Python.cons_assessor" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.TCG_Data_Scraper" />
-        <item itemvalue="Python.Mkm_Data_Scraper" />
-        <item itemvalue="Python.updated_price_scraping" />
-        <item itemvalue="Python.tcg_mapping" />
       </list>
     </recent_temporary>
   </component>
@@ -370,48 +388,10 @@
       <workItem from="1554233448500" duration="7663000" />
       <workItem from="1554659843328" duration="31568000" />
       <workItem from="1557233952428" duration="3959000" />
-    </task>
-    <task id="LOCAL-00047" summary="updated to write files">
-      <created>1549042478676</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1549042478676</updated>
-    </task>
-    <task id="LOCAL-00048" summary="updating to only look for artists at the moment for a smaller and more manageable service">
-      <created>1549044335608</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1549044335608</updated>
-    </task>
-    <task id="LOCAL-00049" summary="adding artist criteria files">
-      <created>1549124396587</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1549124396587</updated>
-    </task>
-    <task id="LOCAL-00050" summary="adding artist constituent files">
-      <created>1549124576514</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1549124576516</updated>
-    </task>
-    <task id="LOCAL-00051" summary="updated souring of nf_SHINV and tags for nf_upeur">
-      <created>1549318719809</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1549318719809</updated>
-    </task>
-    <task id="LOCAL-00052" summary="updated mtgjson scraper to use requests.json() method rather than reading the raw page content into a new json with with the json library. Seems to work a bit faster also due to cutting down the size">
-      <created>1549399911913</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1549399911913</updated>
+      <workItem from="1557685608198" duration="15250000" />
+      <workItem from="1557947643575" duration="1261000" />
+      <workItem from="1558522838387" duration="12626000" />
+      <workItem from="1559393346434" duration="13004000" />
     </task>
     <task id="LOCAL-00053" summary="updated to write files">
       <created>1549406978993</created>
@@ -714,11 +694,53 @@
       <option name="project" value="LOCAL" />
       <updated>1555234925801</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="updated criteria writer to only consider mostly valid criteria&#10;combinations">
+      <created>1557695089609</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1557695089611</updated>
+    </task>
+    <task id="LOCAL-00097" summary="should be all good to go to create the benchmark cons files">
+      <created>1557783231662</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1557783231662</updated>
+    </task>
+    <task id="LOCAL-00098" summary="updated benchmarks to only be a factor of two qualifiers rather than three to allow for suitable population of benchmarks">
+      <created>1558528593886</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1558528593886</updated>
+    </task>
+    <task id="LOCAL-00099" summary="updated benchmark creation">
+      <created>1559393671254</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1559393671258</updated>
+    </task>
+    <task id="LOCAL-00100" summary="updated benchmark filter to work via dictionary looping rather than hardcoding">
+      <created>1559395656113</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1559395656113</updated>
+    </task>
+    <task id="LOCAL-00101" summary="moving benchmark builder to tools">
+      <created>1559498986261</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1559498986261</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48074000" />
+    <option name="totallyTimeSpent" value="90215000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -732,23 +754,24 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49682876" visible="true" weight="0.17761394" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49682876" visible="true" weight="0.19235925" />
       <window_info id="Structure" order="1" sideWeight="0.50317127" side_tool="true" weight="0.21546596" />
       <window_info id="Favorites" order="2" sideWeight="0.5010571" side_tool="true" weight="0.24983476" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3281471" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2956153" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34512022" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36916548" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49966952" weight="0.22553192" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4990086" weight="0.27234042" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49966952" visible="true" weight="0.41867045" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4990086" weight="0.27157003" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49966952" weight="0.21640736" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50033045" side_tool="true" weight="0.32907802" />
-      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49966952" weight="0.4639321" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49966952" weight="0.48090523" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="13" weight="0.32956153" />
+      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.32956153" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -836,12 +859,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated comments" />
-    <MESSAGE value="Updating print statements" />
-    <MESSAGE value="added new sets" />
-    <MESSAGE value="MTGJSON updated keywords (will make benchmarking easier) and changed layout of website" />
-    <MESSAGE value="updated file name for refactor" />
-    <MESSAGE value="very rough work to merge old cons file to updated total cons list. Needs much more work and will probbly be phased out to SQL variant" />
     <MESSAGE value="adding folders to refactor later" />
     <MESSAGE value="old files that need to be optimised because sloooooow as hell" />
     <MESSAGE value="added functionality to also check set listings on mkm incase updates to the mapping are needed" />
@@ -861,7 +878,13 @@
     <MESSAGE value="updated MTCARD build" />
     <MESSAGE value="no need to monitor online mapping as tcg maping is built into mtgjson" />
     <MESSAGE value="updating crawl delay in the tcg scraper" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating crawl delay in the tcg scraper" />
+    <MESSAGE value="updated criteria writer to only consider mostly valid criteria&#10;combinations" />
+    <MESSAGE value="should be all good to go to create the benchmark cons files" />
+    <MESSAGE value="updated benchmarks to only be a factor of two qualifiers rather than three to allow for suitable population of benchmarks" />
+    <MESSAGE value="updated benchmark creation" />
+    <MESSAGE value="updated benchmark filter to work via dictionary looping rather than hardcoding" />
+    <MESSAGE value="moving benchmark builder to tools" />
+    <option name="LAST_COMMIT_MESSAGE" value="moving benchmark builder to tools" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MTGINDEX$Mkm_set_checker.coverage" NAME="Mkm_set_checker Coverage Results" MODIFIED="1554239583484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MTTOOLS" />
@@ -876,31 +899,14 @@
     <SUITE FILE_PATH="coverage/MTGINDEX$Mtgjson_set_checker.coverage" NAME="Mtgjson_set_checker Coverage Results" MODIFIED="1554237530770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MTTOOLS" />
     <SUITE FILE_PATH="coverage/MTGINDEX$thingy.coverage" NAME="thingy Coverage Results" MODIFIED="1553806901973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
     <SUITE FILE_PATH="coverage/MTGINDEX$uniscraper.coverage" NAME="uniscraper Coverage Results" MODIFIED="1553952144423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
+    <SUITE FILE_PATH="coverage/MTGINDEX$Benchmark_Builder.coverage" NAME="Benchmark_Builder Coverage Results" MODIFIED="1559499613918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MTTOOLS" />
     <SUITE FILE_PATH="coverage/MTGINDEX$main.coverage" NAME="main Coverage Results" MODIFIED="1557234082630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MTGINDEX$benchmark_critiera_builder.coverage" NAME="benchmark_critiera_builder Coverage Results" MODIFIED="1554660691248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/things_to_refactor" />
+    <SUITE FILE_PATH="coverage/MTGINDEX$cons_assessor.coverage" NAME="cons_assessor Coverage Results" MODIFIED="1557948129668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MTBENCHMARKS" />
+    <SUITE FILE_PATH="coverage/MTGINDEX$benchmark_critiera_builder.coverage" NAME="benchmark_critiera_builder Coverage Results" MODIFIED="1559496882098" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MTBENCHMARKS" />
     <SUITE FILE_PATH="coverage/MTGINDEX$tcg.coverage" NAME="tcg Coverage Results" MODIFIED="1555165502916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
     <SUITE FILE_PATH="coverage/MTGINDEX$tcg_mapping.coverage" NAME="tcg_mapping Coverage Results" MODIFIED="1555171681556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mess_around.py" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/mapped_mtgjson_sets.json" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/converter.py" />
-    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/placeholder.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MTDATA/MTDATA_20190319.csv" />
-    <entry file="file://$PROJECT_DIR$/MTDATA/MTDATA_20190321.csv" />
-    <entry file="file://$PROJECT_DIR$/MTDATA/MTDATA_20190320.csv" />
-    <entry file="file://$PROJECT_DIR$/MTDATA/MTDATA_20190324.csv" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/dataquest.txt" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/dataquest.py" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/random.hdff5" />
-    <entry file="file://$PROJECT_DIR$/rewritten_model.py" />
-    <entry file="file://$PROJECT_DIR$/savinf.py" />
     <entry file="file://$PROJECT_DIR$/redf.py" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/thingy.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/numpy/__init__.py">
@@ -911,13 +917,6 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/uniscraper.py" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/random.hdf5" />
     <entry file="file://$PROJECT_DIR$/MTREFS/mkm_set_list.txt" />
-    <entry file="file://$PROJECT_DIR$/MTTOOLS/Version_check.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" lean-forward="true" selection-start-line="21" selection-start-column="10" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MTTOOLS/Mtgjson_set_checker.py" />
     <entry file="file://$PROJECT_DIR$/MTREFS/mtgjson_set_list.txt" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/prior.json" />
@@ -949,16 +948,6 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/good_names.txt" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/10E_test.csv" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/updated_price_scraping.py" />
-    <entry file="file://$PROJECT_DIR$/MTTOOLS/db_builder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/tester.csv" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/tcg_mapping.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -983,12 +972,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MTDATA/MTDATA_20190414.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MTCARDS/MTCARD_432_20190414_1019.csv">
-      <provider selected="true" editor-type-id="LargeFileEditor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/MTDATA/MTDATA_20190414.csv" />
+    <entry file="file://$PROJECT_DIR$/MTCARDS/MTCARD_432_20190414_1019.csv" />
     <entry file="file://$PROJECT_DIR$/MTTOOLS/TCG_Data_Scraper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1620">
@@ -1016,16 +1001,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/artist_AaronBoyd.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/artist_AaronBoyd.csv" />
     <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_criteria_files/placeholder.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1033,15 +1009,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/1_constituent_allocator.py">
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_clue_1.0_['G', 'W'].csv" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_clue_5.0_[].csv" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_clue_3.0_['W'].csv" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_contraption_4.0_['B'].csv" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_ajani_4.0_['R', 'W'].csv" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/cons_assessor.py" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/1_constituent_allocator.py" />
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_clue_B.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/analysis.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_林玄泰_.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_Wayne“Kingof”England_.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_WayneEngland_.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_rebalance_files/MTGINDEX_Alan“Don'tFeelLikeYouHavetoPickMe”Pollack_.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTTOOLS/Version_check.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1140" />
+        <state relative-caret-position="160">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTTOOLS/db_builder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="11" column="58" lean-forward="true" selection-start-line="11" selection-start-column="58" selection-end-line="11" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MTBENCHMARKS/benchmark_critiera_builder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="22" column="94" selection-start-line="22" selection-start-column="94" selection-end-line="22" selection-end-column="94" />
+        <state relative-caret-position="435">
+          <caret line="122" column="10" lean-forward="true" selection-start-line="122" selection-start-column="10" selection-end-line="122" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTTOOLS/Benchmark_Builder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
