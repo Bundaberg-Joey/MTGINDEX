@@ -105,7 +105,7 @@ def main():
     create all the MTGINDEX benchmarks by applying filters of ability & cmc & colour ID
     coloridentity
     """
-    mtgindex_loc = {'MTCARD_file':'../MTCARDS/', 'save_to':'../MTBENCHMARKS/test/'}
+    mtgindex_loc = {'MTCARD_file':'../MTCARDS/', 'save_to':'../MTBENCHMARKS/'}
     mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity']  # fields used by mtgjson, prone to renaming
 
     df = mtcard_file(mtgindex_loc['MTCARD_file'])  # most recent MTCARD df
