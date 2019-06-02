@@ -36,7 +36,7 @@ def mtcard_types(mtgjson_url):
 
 ########################################################################################################################
 
-def likely_combinations(mtcard, subtypes,population_threshold):
+def likely_combinations(mtcard, subtypes, subtypes_loc, population_threshold):
     """
     Rather than consider all colour, mana and subtype combinations which are mostly invalid (i.e. white gorgon with cmc
     of 1000), this considers all subtypes, and finds the associated cmc and colour identities for those subtypes. This
@@ -47,6 +47,7 @@ def likely_combinations(mtcard, subtypes,population_threshold):
 
     :param mtcard: Pandas.DataFrame, the loaded pandas df containing the card information
     :param subtypes: list, a list of all mtgjson subtypes
+    :param subtypes_loc: str, location of the correct field to parse in the mtgjson file
     :param population_threshold: int, the minimum number of constituents a single subtype can have
     :return dictionary, {subtype:'convertedManaCost':[<float list>], 'colorIdentity:[<str list>]}
     """
@@ -54,7 +55,7 @@ def likely_combinations(mtcard, subtypes,population_threshold):
     type_info = {a: {'convertedManaCost': [], 'colorIdentity': []} for a in subtypes}  # generate initial dict
 
     for subtype in type_info:  # for each mtgjson subtype
-        subtype_ind = mtcard.index[mtcard['text'].str.contains(subtype, na=False)]  # indices of subtype in passed df
+        subtype_ind = mtcard.index[mtcard[subtypes_loc].str.contains(subtype, na=False)]  # indices of subtype
         if len(subtype_ind) >= population_threshold:  # limit number of constituents per benchmark
             for parameter in type_info[subtype]:  # get colour and cmc values for each subtype
                 type_info[subtype][parameter] = mtcard.iloc[subtype_ind][parameter].drop_duplicates().tolist()
@@ -78,7 +79,7 @@ def benchmark_writer(cons_master, benchmark_name, criteria):
     writes the benchmark to a csv file based on the passed qualifiers and fields. The qualifier(s) and field(s) are not
     explicitly named here as mtgjson routinely updates their json formatting. Hence this allows for changes at main
     without needing to change within the function.
-    :param cons_master: Pandas.DataFrame, The master constituent database from the most recent mtgjson download. Contains all cons info
+    :param cons_master: Pandas.DataFrame, The master constituent database from the most recent mtgjson download.
     :param benchmark_name: str, Filename of benchmark (including location)
     :param criteria: dict, keys are the column headers in cons file values are the text to filter column by
     :return: None, function writes df to file
@@ -101,18 +102,18 @@ def benchmark_writer(cons_master, benchmark_name, criteria):
 def main():
     """
     Given the most recent mtgjson constituent file and list of hosted creature types, this function will reproducibly
-    create all the MTGINDEX benchmarks that are either a combination of subtype and cmc OR combination of subtype and
+    create all the MTGINDEX benchmarks by applying filters of ability & cmc & colour ID
     coloridentity
     """
-    df = mtcard_file('../MTCARDS/')  # most recent MTCARD df
-    subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
-    combinations_to_write = likely_combinations(df,subtypes, population_threshold=5)  # dict of subtypes cmc and color
-
+    mtgindex_loc = {'MTCARD_file':'../MTCARDS/', 'save_to':'../MTBENCHMARKS/test/'}
     mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity']  # fields used by mtgjson, prone to renaming
-    benchmark_location = 'benchmark_rebalance_files/'  # location the benchmark files will be written to
+
+    df = mtcard_file(mtgindex_loc['MTCARD_file'])  # most recent MTCARD df
+    subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
+    combinations_to_write = likely_combinations(df,subtypes, subtypes_loc=mtgjson_keys[0], population_threshold=5)
 
     for criteria in combinations_to_write:
-        filename = F'{benchmark_location}MTGINDEX_{criteria}.csv'.replace('\\', '')
+        filename = F'{mtgindex_loc["save_to"]}MTGINDEX_{criteria}.csv'.replace('\\', '')
         benchmark_criteria = {mtgjson_keys[0]: criteria}
         benchmark_writer(df, benchmark_name=filename, criteria=benchmark_criteria)
 
@@ -121,4 +122,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
