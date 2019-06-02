@@ -2,6 +2,7 @@ import os
 from MTTOOLS import Version_check
 from MTTOOLS import Price_Scraper
 from MTTOOLS import Card_Database_Creator
+from MTTOOLS import Benchmark_Builder
 
 ########################################################################################################################
 
@@ -22,7 +23,9 @@ def main():
     elif mtcard_versions_match == False:
         print(' >> MTGJSON and Build versions out of sync, MTCARD rebuild required')  # GUI
         Card_Database_Creator.main()  # Generate a new MTCARD database file, only needed when mtgjson updates ~ monthly
-        print('  >>> MTCARD File Built')  # GUI
+        print('  >>> MTCARD File Built, Rebalancing Benchmarks')  # GUI
+        Benchmark_Builder.main()
+        print('  >>> Benchmarks Rebalanced')
     print(' >> Generating MTDATA')  # GUI
     Price_Scraper.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTDATA
     print('  >>> MTDATA File Built')  # GUI
