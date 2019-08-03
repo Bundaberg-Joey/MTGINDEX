@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import json
 
 ########################################################################################################################
 
@@ -73,6 +74,8 @@ def main():
     #all_benchmark_changes = all_benchmark_levels.pct_change(axis='columns')  # calculates percentage changes along rows
     #all_benchmark_changes.to_csv(F"{save_folder}Index_Changes_{timestamp}.csv")  # keep for later development
 
+    with open('../MTREFS/price_version.json', 'w') as f:  # used to update the stored Price version
+        f.write(json.dumps({"Price_Build": all_benchmark_levels.columns[-1]}))  # writes Price version to the file
 
 ########################################################################################################################
 

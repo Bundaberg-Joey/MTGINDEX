@@ -42,9 +42,6 @@ def main():
     build_name, build_version = build_info()
     df.to_csv(F'../MTCARDS/{build_name}', index=False)
 
-    with open('../MTREFS/build_version.json', 'w') as f:  # used to update the stored build version
-        f.write(json.dumps({"Build": build_version}))  # writes build version to the file
-
 
 ########################################################################################################################
 
