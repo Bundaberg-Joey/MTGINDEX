@@ -40,7 +40,8 @@ A brief overview of each script and directory is presented below:
   
   
  ## TODOs:
- 1. Create master database to store / append weekly benchmark levels to (must also update index of file to ensure new / old benchmarks are also present)
+ 1. ~~Create master database to store / append weekly benchmark levels to (must also update index of file to ensure new / old benchmarks are also present)~~
  2. Design an efficient triage analysis of benchmarks which have recently undergone large changes and advise on purchases
+ 3. Design better database storage solution than csv files in lots of different folders
  
   
