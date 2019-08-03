@@ -5,7 +5,7 @@ import requests
 ########################################################################################################################
 
 
-def mtcard_file(path_to_mtcards):
+def mtcard_file(path_to_mtcards, subtype_field):
     """
     Because new MTCARD files will be created whenever mtgjson updates, providing the location of the mtcard files allows
     for dynamic loading of the most recent mtgjson file, regardless of name.
@@ -14,7 +14,7 @@ def mtcard_file(path_to_mtcards):
     """
     mtcard_name = [f for f in os.listdir(path_to_mtcards) if '.csv' in f][-1]
     mtcard_df = pd.read_csv(path_to_mtcards+mtcard_name, dtype='str')
-    mtcard_df['text'] = mtcard_df['text'].str.lower()
+    mtcard_df[subtype_field] = mtcard_df[subtype_field].str.lower()
     return mtcard_df
 
 
@@ -108,7 +108,7 @@ def main():
     mtgindex_loc = {'MTCARD_file':'../MTCARDS/', 'save_to':'../MTBENCHMARKS/'}
     mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity']  # fields used by mtgjson, prone to renaming
 
-    df = mtcard_file(mtgindex_loc['MTCARD_file'])  # most recent MTCARD df
+    df = mtcard_file(mtgindex_loc['MTCARD_file'], mtgjson_keys[0])  # most recent MTCARD df
     subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
     combinations_to_write = likely_combinations(df,subtypes, subtypes_loc=mtgjson_keys[0], population_threshold=5)
 
