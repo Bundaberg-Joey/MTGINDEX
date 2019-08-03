@@ -67,7 +67,8 @@ def main():
     mtgindex_loc = {'MTBENCHMARKS':'../MTBENCHMARKS/',  # saves changing paths in the main script
                     'save_to':'../MTINDEX/',
                     'Index_Levels_Master':'../Index_Values.csv',
-                    'Index_Returns_Master':'../Index_Returns.csv'}
+                    'Index_Returns_Master':'../Index_Returns.csv',
+                    'Version_File':'../MTREFS/price_version.json'}
 
     benchmark_folder, save_folder = mtgindex_loc['MTBENCHMARKS'], mtgindex_loc['save_to']
     mtgjson_keys = ['prices.paper.']  # fields used by mtgjson, prone to renaming
@@ -86,7 +87,7 @@ def main():
     updated_master_levels.to_csv(mtgindex_loc['Index_Levels_Master'])  # overwrite existing  with  updated
     updated_master_returns.to_csv(mtgindex_loc['Index_Returns_Master'])  #  overwrite existing  with  updated
 
-    with open('../MTREFS/price_version.json', 'w') as f:  # used to update the stored Price version
+    with open(mtgindex_loc['Version_File'], 'w') as f:  # used to update the stored Price version
         f.write(json.dumps({"Price_Build": mtgjson_levels.columns[-1]}))
 
 ########################################################################################################################
