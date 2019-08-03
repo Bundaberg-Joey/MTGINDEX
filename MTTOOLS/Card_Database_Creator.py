@@ -37,8 +37,6 @@ def main():
         set_df = json_normalize(page[mtgjson_set]['cards'])  # for each set access the card information
         df = df.append(set_df, sort=True)  # append to the main dataframe to be written
 
-    df = df.dropna(subset=['tcgplayerPurchaseUrl'])  # if this is blank then values cannot be mapped so no use
-
     build_name, build_version = build_info()
     df.to_csv(F'../MTCARDS/{build_name}', index=False)
 
