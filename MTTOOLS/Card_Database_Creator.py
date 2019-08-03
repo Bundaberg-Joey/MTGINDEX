@@ -33,7 +33,7 @@ def main():
 
     df = pd.DataFrame()
     for mtgjson_set in hosted_sets:
-        print(F'Now processing {mtgjson_set}')
+        print(F' >>> Now processing {mtgjson_set}')
         set_df = json_normalize(page[mtgjson_set]['cards'])  # for each set access the card information
         df = df.append(set_df, sort=True)  # append to the main dataframe to be written
 

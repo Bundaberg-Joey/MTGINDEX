@@ -114,6 +114,7 @@ def main():
 
     for criteria in combinations_to_write:
         filename = F'{mtgindex_loc["save_to"]}MTCONS_{criteria}.csv'.replace('\\', '')
+        print(F' >>> Now processing {filename}')
         benchmark_criteria = {mtgjson_keys[0]: criteria}
         benchmark_writer(df, benchmark_name=filename, criteria=benchmark_criteria)
 
