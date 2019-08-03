@@ -12,7 +12,7 @@ def mtcard_file(path_to_mtcards):
     :param path_to_mtcards: relative path to the MTCARDS folder
     :return Pandas.DataFrame of the latest mtcard file
     """
-    mtcard_name = os.listdir(path_to_mtcards)[-1]
+    mtcard_name = [f for f in os.listdir(path_to_mtcards) if '.csv' in f][-1]
     mtcard_df = pd.read_csv(path_to_mtcards+mtcard_name, dtype='str')
     mtcard_df['text'] = mtcard_df['text'].str.lower()
     return mtcard_df
