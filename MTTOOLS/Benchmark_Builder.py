@@ -113,7 +113,7 @@ def main():
     combinations_to_write = likely_combinations(df,subtypes, subtypes_loc=mtgjson_keys[0], population_threshold=5)
 
     for criteria in combinations_to_write:
-        filename = F'{mtgindex_loc["save_to"]}MTGINDEX_{criteria}.csv'.replace('\\', '')
+        filename = F'{mtgindex_loc["save_to"]}MTCONS_{criteria}.csv'.replace('\\', '')
         benchmark_criteria = {mtgjson_keys[0]: criteria}
         benchmark_writer(df, benchmark_name=filename, criteria=benchmark_criteria)
 
