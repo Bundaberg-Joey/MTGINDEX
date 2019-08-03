@@ -10,6 +10,7 @@ def mtcard_file(path_to_mtcards, subtype_field):
     Because new MTCARD files will be created whenever mtgjson updates, providing the location of the mtcard files allows
     for dynamic loading of the most recent mtgjson file, regardless of name.
     :param path_to_mtcards: relative path to the MTCARDS folder
+    :param subtype_field: str, field to be lowered as contains subtype info of cards and lower case matches
     :return Pandas.DataFrame of the latest mtcard file
     """
     mtcard_name = [f for f in os.listdir(path_to_mtcards) if '.csv' in f][-1]
@@ -51,7 +52,7 @@ def likely_combinations(mtcard, subtypes, subtypes_loc, population_threshold):
     :param population_threshold: int, the minimum number of constituents a single subtype can have
     :return dictionary, {subtype:'convertedManaCost':[<float list>], 'colorIdentity:[<str list>]}
     """
-    mtgjson_colours = ['R', 'W', 'B', 'U', 'G','[]']
+    mtgjson_colours = ['R', 'W', 'B', 'U', 'G', '[]']
     type_info = {a: {'convertedManaCost': [], 'colorIdentity': []} for a in subtypes}  # generate initial dict
 
     for subtype in type_info:  # for each mtgjson subtype
@@ -63,7 +64,7 @@ def likely_combinations(mtcard, subtypes, subtypes_loc, population_threshold):
 
         subtype_colours = ''.join(type_info[subtype]['colorIdentity'])
         updated_colours = ['\[]' if colour == '[]' else colour for colour in mtgjson_colours if colour in subtype_colours]
-        type_info[subtype]['colorIdentity'] =updated_colours
+        type_info[subtype]['colorIdentity'] = updated_colours
 
     combinations = {i:type_info[i] for i in type_info if type_info[i] != {'convertedManaCost': [], 'colorIdentity': []}}
     # remove subtypes which have not been modified (i.e. didn't meet threshold level) or are only singular listings
@@ -105,12 +106,12 @@ def main():
     create all the MTGINDEX benchmarks by applying filters of ability & cmc & colour ID
     coloridentity
     """
-    mtgindex_loc = {'MTCARD_file':'../MTCARDS/', 'save_to':'../MTBENCHMARKS/'}
+    mtgindex_loc = {'MTCARD_file': '../MTCARDS/', 'save_to': '../MTBENCHMARKS/'}
     mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity']  # fields used by mtgjson, prone to renaming
 
     df = mtcard_file(mtgindex_loc['MTCARD_file'], mtgjson_keys[0])  # most recent MTCARD df
     subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
-    combinations_to_write = likely_combinations(df,subtypes, subtypes_loc=mtgjson_keys[0], population_threshold=5)
+    combinations_to_write = likely_combinations(df, subtypes, subtypes_loc=mtgjson_keys[0], population_threshold=5)
 
     for criteria in combinations_to_write:
         filename = F'{mtgindex_loc["save_to"]}MTCONS_{criteria}.csv'.replace('\\', '')
