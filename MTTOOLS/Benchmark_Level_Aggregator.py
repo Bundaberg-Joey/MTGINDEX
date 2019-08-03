@@ -66,8 +66,8 @@ def main():
 
     mtgindex_loc = {'MTBENCHMARKS':'../MTBENCHMARKS/',  # saves changing paths in the main script
                     'save_to':'../MTINDEX/',
-                    'Index_Levels_Master':'../Index_Values.csv',
-                    'Index_Returns_Master':'../Index_Returns.csv',
+                    'Index_Levels_Master':'../MTINDEX_Values.csv',
+                    'Index_Returns_Master':'../MTINDEX_Returns.csv',
                     'Version_File':'../MTREFS/price_version.json'}
 
     benchmark_folder, save_folder = mtgindex_loc['MTBENCHMARKS'], mtgindex_loc['save_to']
