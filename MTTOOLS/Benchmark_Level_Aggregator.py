@@ -31,7 +31,7 @@ def benchmark_level(cons, t_1_index, t, t_1):
     Calculates the new benchmark value of day (t) based on the below formula, where all constituents are assumed to
     have an equally weighted contribution to the index in the absence of nominal outstanding data
 
-    benchmark_value(t) = benchmark_value(t-1) * (1 + sum(constituent_returns(t))
+    benchmark_value(t) = benchmark_value(t-1) * (1 + sum(constituent_returns(t) * weights)
 
     :param cons: Pandas.DataFrame, constituent benchmark file containing required prices of constituents per benchmark
     :param t_1_index: float, benchmark value from previous day (t-1)
@@ -42,8 +42,9 @@ def benchmark_level(cons, t_1_index, t, t_1):
     """
     cons = cons[[t_1, t]]  # focus down cons to day (t) and (t-1)
     cons_returns = cons.pct_change(axis='columns')[t]  # calcs return of the cons, slices for relevant column after
-    t_index = t_1_index * (1 + np.sum(cons_returns))
-    return  t_index
+    cons_weights = 1/len(cons_returns)  # assume all constituents are equally weighted within their benchmarks
+    t_index = t_1_index * (1 + np.sum(cons_returns*cons_weights))
+    return t_index
 
 
 ########################################################################################################################
