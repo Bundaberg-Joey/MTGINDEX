@@ -125,7 +125,7 @@ def main():
                     'Master_Returns': '../MTINDEX/MTINDEX_Returns.csv',
                     'Constituent_Folder': '../MTBENCHMARKS/',
                     'save_to': '../MTINDEX/',
-                    'Version_File':'../MTREFS/price_version.json'}
+                    'Version_File': '../MTREFS/price_version.json'}
 
     mtgjson_keys = ['prices.paper.']
 
@@ -136,14 +136,15 @@ def main():
     cons_files = [f for f in os.listdir(mtgindex_loc['Constituent_Folder']) if '.csv' in f]  # list of benchmark csv
 
     if constituent_data_available(mtgindex_loc['Constituent_Folder'], cons_files[0], t_cons):  # Sanity check
-        benchmark_names = [i.split('_')[-1].split('.')[0] for i in cons_files] # used to locate index in master df
+        benchmark_names = [i.split('_')[-1].split('.')[0] for i in cons_files]  # used to locate index in master df
 
-        day_t_index_values = all_benchmark_levels(master_index_df=master_index_df,
-                                           cons_path=mtgindex_loc['Constituent_Folder'],
-                                           benchmark_names=benchmark_names,
-                                           cons_files=cons_files,
-                                           dates=[t_1_index, t_cons, t_1_cons, t_index],
-                                           column_key=mtgjson_keys[0])  # calculate all benchmark values for day (t)
+        day_t_index_values = all_benchmark_levels(
+                                            master_index_df=master_index_df,
+                                            cons_path=mtgindex_loc['Constituent_Folder'],
+                                            benchmark_names=benchmark_names,
+                                            cons_files=cons_files,
+                                            dates=[t_1_index, t_cons, t_1_cons, t_index],
+                                            column_key=mtgjson_keys[0])  # calculate all benchmark values for day (t)
 
         updated_master_levels = pd.concat([master_index_df, day_t_index_values], axis=1, sort=True)  # update master
         updated_master_returns = updated_master_levels.pct_change(axis='columns')  # calculate benchmark level returns
@@ -165,5 +166,5 @@ def main():
 
 if __name__ == '__main__':
     while True:  # in case multiple weeks are missed by user, this way script loops till benchmarks all up to date
-        if main() == False:
+        if main() is False:
             break
