@@ -166,5 +166,3 @@ if __name__ == '__main__':
     while True:  # in case multiple weeks are missed by user, this way script loops till benchmarks all up to date
         if main() == False:
             break
-
-          #TODO: UPDATE THE AGGREGATOR SCRIPT IN MAIN !!!
