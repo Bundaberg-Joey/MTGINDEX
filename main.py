@@ -20,21 +20,16 @@ def main():
     """
 
     os.chdir('MTTOOLS')  # change directory to allow MTTOOLS to function
-    mtcard_versions_match = Version_check.main()  # Function checks if stored and online mtgjson versions match, bool
-
-    if mtcard_versions_match == True:
-        print(' >> MTGJSON and Local Price versions match, rebalance not required')  # GUI
+    if Version_check.main() == True:
+        print(' >> MTGJSON and Local Price versions match, rebalance not required')
     else:
-        print(' >> Difference in MTGJSON and Local versions, rebuild required')
-        print(' >> Rebuilding MTCARD, master constituents file')  # GUI
-        Card_Database_Creator.main()  # Generate a new MTCARD database file, only needed when mtgjson updates ~ monthly
-        print(' >> MTCARD File Built')  # GUI
-        print(' >> Rebalancing Benchmarks (writing MTCONS files)')  # GUI
-        Benchmark_Builder.main()
-        print(' >> Benchmarks Rebalanced')
-        print(' >> Generating MTINDEX File')  # GUI
-        Benchmark_Level_Aggregator.main()  # Scrape mkm to get the daily UPEUR  and SHINV for listed cards, file saved to MTINDEX
-        print(' >> MTINDEX File Built')  # GUI
+        print(' >> Difference in MTGJSON and Local price versions\n  >> Rebuilding MTCARD')
+        Card_Database_Creator.main()  # Generate a new MTCARD database file including the price data
+        print(' >> MTCARD File Built \n  >> Rebalancing Benchmarks (writing MTCONS files)')
+        Benchmark_Builder.main()  # filter master cons database to create constituent listings including prices
+        print(' >> Benchmarks Rebalanced \n  >> Generating MTINDEX File')
+        Benchmark_Level_Aggregator.main()  # Parse benchmark constituent files to calculate weekly index levels
+        print(' >> MTINDEX File Built')
 
 
 ########################################################################################################################
