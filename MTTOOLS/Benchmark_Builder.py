@@ -74,16 +74,15 @@ def likely_combinations(mtcard, subtypes, subtypes_loc, population_threshold):
 ########################################################################################################################
 
 
-def benchmark_writer(cons_master, benchmark_name, criteria):
+def benchmark_writer(cons_master, criteria):
     """
     Given two benchmark criteria and their respective fields, this function takes the main constituent database and
-    writes the benchmark to a csv file based on the passed qualifiers and fields. The qualifier(s) and field(s) are not
+    creates the benchmark dataframe based on the passed qualifiers and fields. The qualifier(s) and field(s) are not
     explicitly named here as mtgjson routinely updates their json formatting. Hence this allows for changes at main
     without needing to change within the function.
     :param cons_master: Pandas.DataFrame, The master constituent database from the most recent mtgjson download.
-    :param benchmark_name: str, Filename of benchmark (including location)
     :param criteria: dict, keys are the column headers in cons file values are the text to filter column by
-    :return: None, function writes df to file
+    :return: cons_df: Pandas.DataFrame, the df containing only the constituents of the benchmark criteria
     """
     benchmark_fields = list(criteria.keys())  # fields of all criteria to be assessed for the benchmark
     cons_df = cons_master[cons_master[benchmark_fields[0]].str.contains(criteria[benchmark_fields[0]], na=False)]
@@ -94,8 +93,7 @@ def benchmark_writer(cons_master, benchmark_name, criteria):
             cons_df = cons_df[cons_df[crit].str.contains(criteria[crit], na=False)]
 
     if len(cons_df.index) > 0:  # prevent this writing empty benchmarks to file
-        cons_df.to_csv(benchmark_name)
-
+        return cons_df
 
 ########################################################################################################################
 
@@ -103,24 +101,53 @@ def benchmark_writer(cons_master, benchmark_name, criteria):
 def main():
     """
     Given the most recent mtgjson constituent file and list of hosted creature types, this function will reproducibly
-    create all the MTGINDEX benchmarks by applying filters of ability & cmc & colour ID
-    coloridentity
+    create MTGINDEX benchmarks by applying the card subtype, sourced from mtgjson. (Infastructure currently exists to
+    easily filter by other metrics also in the appropriate dictionary but multiple conditions quickly results in most
+    benchmarks only haveing 1-3 constituents so overall not that helpful...
+
+    The script will write a new constituent file if the benchmark csv file does not already exist OR it will update the
+    preexisting cons file with the new price columns to prevent historical benchmark cons price data from being lost
+    after three months. When updating the constituent data, only the price columns are added to the old df to ensure
+    random column name changes don't impact te size of the file and overall keep the updates cleaner.
+
+    The `UUID` mtgjson field is used as the index for all benchmarks as this ensures the correct index is located when
+    updating constituent files with new prices as before was just based on the order in MTCARD which could easily change
+
+    The index of each constituent df is reset prior to saving to prevent it from being lost as pandas will default
+    save it as the file index (and therefore have no header next time opened) or the index is just removed which makes
+    even more problems. In theory, the index only has to be set once for each file explicitly, after which it can be
+    assumed implicitly for each file as the defacto index, but this just
     """
     mtgindex_loc = {'MTCARD_file': '../MTCARDS/', 'save_to': '../MTBENCHMARKS/'}
-    mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity']  # fields used by mtgjson, prone to renaming
+    mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity', 'uuid', 'price']  # mtgjson fields, prone to renaming
 
     df = mtcard_file(mtgindex_loc['MTCARD_file'], mtgjson_keys[0])  # most recent MTCARD df
     subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
     combinations_to_write = likely_combinations(df, subtypes, subtypes_loc=mtgjson_keys[0], population_threshold=5)
+    current_benchmarks = [f for f in os.listdir(mtgindex_loc["save_to"]) if '.csv' in f]
 
     for criteria in combinations_to_write:
-        filename = F'{mtgindex_loc["save_to"]}MTCONS_{criteria}.csv'.replace('\\', '')
+        filename = F'MTCONS_{criteria}.csv'
         print(F' >>> Now processing {filename}')
         benchmark_criteria = {mtgjson_keys[0]: criteria}
-        benchmark_writer(df, benchmark_name=filename, criteria=benchmark_criteria)
+        cons_df = benchmark_writer(df, criteria=benchmark_criteria).set_index(mtgjson_keys[3])  # set uuid as index
+
+        save_path_name = F"{mtgindex_loc['save_to']}{filename}"
+
+        if filename not in current_benchmarks:  # if the benchmark is a new one with no prior cons file
+            cons_df = cons_df.rename_axis(mtgjson_keys[3]).reset_index()
+            cons_df.to_csv(save_path_name, index=False)
+        else:
+            prior_df = pd.read_csv(save_path_name, index_col=mtgjson_keys[3])
+            cols_to_update = [col for col in cons_df.columns if col not in prior_df.columns and mtgjson_keys[4] in col]
+            updated_cons_df = pd.concat([prior_df, cons_df[cols_to_update]], axis='columns', join='outer', sort=True)
+            updated_cons_df = updated_cons_df.rename_axis(mtgjson_keys[3]).reset_index()
+            updated_cons_df.to_csv(save_path_name, index=False)
 
 
 ########################################################################################################################
 
 if __name__ == '__main__':
     main()
+
+# TODO: This script now writes th benchmarks as well as updating them, these need to be split into different scripts !
