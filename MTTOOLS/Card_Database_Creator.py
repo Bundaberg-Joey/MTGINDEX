@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 from pandas.io.json import json_normalize
 from datetime import datetime
-import json
 
 ########################################################################################################################
 
