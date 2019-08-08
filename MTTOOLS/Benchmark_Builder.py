@@ -119,7 +119,7 @@ def main():
     assumed implicitly for each file as the defacto index, but this just
     """
     mtgindex_loc = {'MTCARD_file': '../MTCARDS/', 'save_to': '../MTBENCHMARKS/'}
-    mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity', 'uuid', 'price']  # mtgjson fields, prone to renaming
+    mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity', 'uuid', 'prices.paper.']  # mtgjson fields, prone to renaming
 
     df = mtcard_file(mtgindex_loc['MTCARD_file'], mtgjson_keys[0])  # most recent MTCARD df
     subtypes = mtcard_types('https://mtgjson.com/json/CardTypes.json')  # list of mtgjson subtypes from hosted json
