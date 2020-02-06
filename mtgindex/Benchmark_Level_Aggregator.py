@@ -123,9 +123,9 @@ def main():
     """
     mtgindex_loc = {'Master_Index': '../MTINDEX/MTINDEX_Values.csv',
                     'Master_Returns': '../MTINDEX/MTINDEX_Returns.csv',
-                    'Constituent_Folder': '../MTBENCHMARKS/',
+                    'Constituent_Folder': '../MTBENCHMARK/',
                     'save_to': '../MTINDEX/',
-                    'Version_File': '../MTREFS/price_version.json'}
+                    'Version_File': '../MTREF/local_price_date.txt'}
 
     mtgjson_keys = ['prices.paper.']
 

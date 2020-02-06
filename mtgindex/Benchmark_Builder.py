@@ -9,7 +9,7 @@ def mtcard_file(path_to_mtcards, subtype_field):
     """
     Because new MTCARD files will be created whenever mtgjson updates, providing the location of the mtcard files allows
     for dynamic loading of the most recent mtgjson file, regardless of name.
-    :param path_to_mtcards: relative path to the MTCARDS folder
+    :param path_to_mtcards: relative path to the MTCARD folder
     :param subtype_field: str, field to be lowered as contains subtype info of cards and lower case matches
     :return Pandas.DataFrame of the latest mtcard file
     """
@@ -76,11 +76,11 @@ def likely_combinations(mtcard, subtypes, subtypes_loc, population_threshold):
 
 def benchmark_writer(cons_master, criteria):
     """
-    Given two benchmark criteria and their respective fields, this function takes the main constituent database and
+    Given two benchmark criteria and their respective fields, this function takes the main constituent data and
     creates the benchmark dataframe based on the passed qualifiers and fields. The qualifier(s) and field(s) are not
     explicitly named here as mtgjson routinely updates their json formatting. Hence this allows for changes at main
     without needing to change within the function.
-    :param cons_master: Pandas.DataFrame, The master constituent database from the most recent mtgjson download.
+    :param cons_master: Pandas.DataFrame, The master constituent data from the most recent mtgjson download.
     :param criteria: dict, keys are the column headers in cons file values are the text to filter column by
     :return: cons_df: Pandas.DataFrame, the df containing only the constituents of the benchmark criteria
     """
@@ -118,7 +118,7 @@ def main():
     even more problems. In theory, the index only has to be set once for each file explicitly, after which it can be
     assumed implicitly for each file as the defacto index, but this just
     """
-    mtgindex_loc = {'MTCARD_file': '../MTCARDS/', 'save_to': '../MTBENCHMARKS/'}
+    mtgindex_loc = {'MTCARD_file': '../MTCARD/', 'save_to': '../MTBENCHMARK/'}
     mtgjson_keys = ['text', 'convertedManaCost', 'colorIdentity', 'uuid', 'prices.paper.']  # mtgjson fields, prone to renaming
 
     df = mtcard_file(mtgindex_loc['MTCARD_file'], mtgjson_keys[0])  # most recent MTCARD df
