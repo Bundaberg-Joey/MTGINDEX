@@ -2,3 +2,4 @@ MTCONS*.csv
 MTCARD*.csv
 Index_Values*.csv
 .idea*
+__pycache__/*
