@@ -1,0 +1,10 @@
+local_version_path:
+  MTREF/local_price_date.txt
+remote_version_url:
+  https://mtgjson.com/json/version.json
+database_url:
+  https://www.mtgjson.com/files/AllPrintings.sqlite
+local_database_location:
+  MTCARD
+
+
