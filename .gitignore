@@ -3,3 +3,4 @@ MTCARD*.csv
 Index_Values*.csv
 .idea*
 *.sqlite
+config.yaml
