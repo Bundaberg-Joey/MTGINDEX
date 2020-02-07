@@ -93,17 +93,18 @@ class DatabaseBuilder(object):
         self.data = response.content
 
 
-    def build_local_database(self, data_url, db_extension='sqlite'):
+    def build_local_database(self, data_url, write_mode='wb'):
         """
         Creates a local version of the hosted mtgjson, sqlite database with suitable name and extension.
 
         :param data_url: str, url of the sqlite database hosted by mtgjson
-        :param db_extension: str, file extension the downloaded binary database is to be saved with
+        :param write_mode: str, allows for switching between binary / non binary formats in the future
         """
-        assert isinstance(data_url, str) and isinstance(db_extension, str), 'Passed parameters must be strings'
+        assert isinstance(data_url, str), 'Passed data url must be a string'
+        assert write_mode in ['w', 'wb'], 'Write mode must be to only write as text or binary only, '
 
         self._retrieve_data(data_url)
-        with open(self.db_location, 'wb') as f:
+        with open(self.db_location, write_mode) as f:
             f.write(self.data)
         self.created = True
 
