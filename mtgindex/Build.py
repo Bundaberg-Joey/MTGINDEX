@@ -7,7 +7,7 @@ __author__ = 'Calum Hand'
 __version__ = '1.0.0'
 
 
-class DatabaseBuilder(object):
+class MtCard(object):
 
     def __init__(self, local_path, remote_path, remote_json_key='pricesDate'):
         """
