@@ -1,7 +1,6 @@
 import os
 from datetime import datetime
 import sqlite3
-import re
 
 import requests
 import pandas as pd
