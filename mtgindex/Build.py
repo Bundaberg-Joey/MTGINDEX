@@ -128,7 +128,7 @@ class MtCard(object):
 ########################################################################################################################
 
 
-class MtBenchmarks(object):
+class MtBenchmark(object):
 
     def __init__(self, mtcard_location, mtbenchmark_location):
         """
