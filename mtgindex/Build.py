@@ -1,7 +1,11 @@
 import os
 from datetime import datetime
+import sqlite3
+import re
 
 import requests
+import pandas as pd
+from  pandas.io import sql
 
 __author__ = 'Calum Hand'
 __version__ = '1.0.0'
@@ -16,18 +20,18 @@ class MtCard(object):
         local is stored in a local file and remote is a hosted json file by mtgjson.
         The user can download the passed sqlite data and save a local version to disk.
 
-        :param local_path: str, path to the local file containing the recent build version
-        :param remote_path: str, url of the data hosted by mtgjson
+        :param local_path:      str, path to the local file containing the recent build version
+        :param remote_path:     str, url of the data hosted by mtgjson
         :param remote_json_key: str, json key used to access the relevant date for version comparison
 
-        Attributes:
+        ::Attributes:
         local_path:         str, path to the local file containing the recent build version
         remote_path:        str, url of the data hosted by mtgjson
         local_version:      str, value of local date version
         remote_version:     str, value of remote version
         rebuild_required:   boolean, evaluates to if the rebuild is needed or not, default False
         date_stamp:         str, date of class initialisation / database creation
-        db_location:       str, file name the database is saved to, includes date stamp and extension
+        db_location:        str, file name the database is saved to, includes date stamp and extension
         data:               bytes object, retrieved online this database is a non text database file, typically sqlite
         created:            boolean, initially false but sets to True after downloaded database has been written to file
 
@@ -123,3 +127,62 @@ class MtCard(object):
 
 
 ########################################################################################################################
+
+
+class MtBenchmarks(object):
+
+    def __init__(self, mtcard_location, mtbenchmark_location):
+        """
+        Builds the benchmarks which are assessed as part of MTGINDEX.
+        Benchmarks constituents are allocated based on saved sql queries (from MTCARD) allowing for easy addition of
+        new benchmarks with peculiar criteria in a reproducible manner.
+
+        :param mtcard_location:         str, path to sqlite database downloaded from mtgjson
+        :param mtbenchmark_location:    str, path to sqlite database containing benchmark constituent allocations
+
+        ::Attributes:
+        self.conn_mtcard:           sqlite3.Connection, connection to mtcard sql database
+        self.conn_mtbenchmark:      sqlite3.Connection, connection to mtbenchmark sql database
+
+        """
+        self.conn_mtcard = sqlite3.connect(mtcard_location)
+        self.conn_mtbenchmark = sqlite3.connect(mtbenchmark_location)
+
+
+    @staticmethod
+    def _load_queries_from_file(path_to_queries):
+        """
+        Loads the sql queries and benchmark names and returns them as a generator of the form: (index, row)
+
+        :param path_to_queries: str, file containing benchmark names and sql queries to allocate constituents
+        :return: loaded_queries: generator,
+        """
+        df = pd.read_csv(path_to_queries, index=False)
+        loaded_queries = df.iterrows()
+        return loaded_queries
+
+
+    def allocate_constituents(self, path_to_queries):
+        """
+        During a rebalance, the constituents of the MTCARD database will need to be redistributed according to their
+        selection criteria for inclusion (i.e. convertedManaCost> 10).
+        This is handled buy loading the SQL queries used to generate the benchmarks originally and applying them to
+        the passed mtcard database.
+        The uuids of the valid constituents are then written to their own table within the mtbenchmark database.
+        If a benchmark has no valid constituents then the table is dropped from the mtbenchmark database.
+
+        :param path_to_queries: str, file containing benchmark names and sql queries to allocate constituents
+        """
+        assert os.path.isfile(path_to_queries), 'Specified path is not valid'
+
+        benchmark_generator = self._load_queries_from_file(path_to_queries)
+
+        for _, row in benchmark_generator:
+            name, generation = row
+            valid_constituents = pd.read_sql(generation, self.conn_mtcard)
+
+            if valid_constituents.size > 0:
+                valid_constituents.to_sql(name, self.conn_mtbenchmark, if_exists='replace', index=False)
+            else:
+                sql.execute(F'DROP TABLE IF EXISTS {name}', self.conn_mtbenchmark)
+
