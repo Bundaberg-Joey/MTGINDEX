@@ -6,5 +6,9 @@ database_url:
   https://www.mtgjson.com/files/AllPrintings.sqlite
 local_database_location:
   MTCARD
+MTBENCHMARK_loc:
+  MTBENCHMARK.sqlite
+queries_loc:
+  MTREF/constituent_allocation_queries.csv
 
 

@@ -1,6 +1,6 @@
 import yaml
 
-from mtgindex.Build import MtCard
+from mtgindex.Build import MtCard, MtBenchmark
 
 if __name__ == '__main__':
 
@@ -12,3 +12,6 @@ if __name__ == '__main__':
     if mtcard.rebuild_required:
         mtcard.set_db_location(config['local_database_location'])
         mtcard.build_local_database(config['database_url'])
+
+        benchmarks = MtBenchmark(mtcard.db_location, config['MTBENCHMARK_loc'])
+        benchmarks.allocate_constituents(config['queries_loc'])
