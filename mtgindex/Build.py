@@ -54,6 +54,7 @@ class MtCard(object):
         """
         with open(self.local_path, 'r') as f:
             local = f.read()
+        assert isinstance(local, str) and len(local) > 0, 'Local version file potentially empty, halting'
         return local
 
 
@@ -68,6 +69,7 @@ class MtCard(object):
         page = requests.get(self.remote_path).json()
         assert json_key in page.keys(), 'Passed json key does not exist within mtgjson structure'
         remote = page[json_key]
+        assert isinstance(remote, str) and len(remote) > 0, 'Remote version potentially empty, halting'
         return remote
 
 
@@ -105,6 +107,7 @@ class MtCard(object):
         """
         assert isinstance(data_url, str), 'Passed data url must be a string'
         assert write_mode in ['w', 'wb'], 'Write mode must be to only write as text or binary only, '
+        assert self.db_location is not None, '`self.set_db_location()` must be called before building local'
 
         self._retrieve_data(data_url)
         with open(self.db_location, write_mode) as f:
@@ -185,3 +188,11 @@ class MtBenchmark(object):
             else:
                 sql.execute(F'DROP TABLE IF EXISTS {name}', self.conn_mtbenchmark)
 
+#TODO : include a logger so can save progress to external file with datestamp
+
+    def index_lister(self):
+        """
+        make index table in the database where each column is a benchmark and the index key is the date
+        :return:
+        """
+        pass
