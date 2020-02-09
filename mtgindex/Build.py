@@ -159,7 +159,7 @@ class MtBenchmark(object):
         :param path_to_queries: str, file containing benchmark names and sql queries to allocate constituents
         :return: loaded_queries: generator,
         """
-        df = pd.read_csv(path_to_queries, index=False)
+        df = pd.read_csv(path_to_queries)
         loaded_queries = df.iterrows()
         return loaded_queries
 
