@@ -1,17 +1,18 @@
 import yaml
+import os
 
-from mtgindex.Build import MtCard, MtBenchmark
+from mtgindex.VersionControl import VersionController
+from mtgindex.DatabaseAssembly import AssembleSQL
 
 if __name__ == '__main__':
-
     with open('MTREF/config.yaml') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
-    mtcard = MtCard(config['local_version_path'], config['remote_version_url'])
+    vc = VersionController()
+    vc.fetch_current(config['local_version_path'])
+    vc.fetch_queried(config['remote_version_url'])
 
-    if mtcard.rebuild_required:
-        mtcard.set_db_location(config['local_database_location'])
-        mtcard.build_local_database(config['database_url'])
-
-        benchmarks = MtBenchmark(mtcard.db_location, config['MTBENCHMARK_loc'])
-        benchmarks.allocate_constituents(config['queries_loc'])
+    if vc.compare_versions() == False:
+        db = AssembleSQL.retrieve_data(config['database_url'])
+        save_name = os.path.join(config['local_database_location'], '_safe_to_delete.sqlite')
+        db.build(save_name)
