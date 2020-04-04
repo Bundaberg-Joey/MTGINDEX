@@ -14,9 +14,9 @@ class Assembler(object):
 
     Methods
     -------
-    retrieve_data(cls, location) --> Class, factory method for accessing remote data, retrieved by url
-
-    mtcard(self, location) --> Saves `self.data` to specified type
+    download_data(cls, location) --> Class, factory method for accessing remote data, retrieved by url.
+    get_data(self, location) --> Getter method to access `self.data`.
+    build(self, location) --> Saves `self.data` to disk.
     """
 
     def __init__(self, data=None):
@@ -55,6 +55,20 @@ class Assembler(object):
         """
         return self.data
 
+    def build(self, destination):
+        """Method to be inherited by child classes. Not implemented in parent class by default.
+
+        Parameters
+        ----------
+        destination : str
+            Path to database build location.
+
+        Returns
+        -------
+        NotImplementedError
+        """
+        return NotImplementedError
+
 
 class AssembleSQL(Assembler):
     """Child class for saving retrieved data as new SQL database.
@@ -72,7 +86,7 @@ class AssembleSQL(Assembler):
         None:
             Sets `self.built` to True.
         """
-        assert self.data is not None, 'Data does not exist to mtcard local database'
+        assert self.data is not None, 'Data does not exist to store'
         with open(destination, 'wb') as f:
             f.write(self.data)
         self.built = True
