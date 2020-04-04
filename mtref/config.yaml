@@ -5,7 +5,7 @@ remote_version_url:
 database_url:
   https://www.mtgjson.com/files/AllPrintings.sqlite
 local_database_location:
-  MTCARD
+  database
 MTBENCHMARK_loc:
   Constituent_Allocation.sqlite
 queries_loc:
