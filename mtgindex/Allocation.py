@@ -18,7 +18,7 @@ class ConstituentHandler(object):
 
     Methods
     -------
-    load_cons(self, benchmark_query) --> fetches matching information from SQL query.
+    select_cons(self, benchmark_query) --> fetches matching information from SQL query.
 
     save_cons(self, name, constituents) --> save constituents to destination database.
 
@@ -41,7 +41,7 @@ class ConstituentHandler(object):
         self.conn_origin = sqlite3.connect(cons_origin)
         self.conn_dest = sqlite3.connect(cons_dest)
 
-    def load_cons(self, benchmark_query):
+    def select_cons(self, benchmark_query):
         """Use passed sql query to load constituent information from the main database.
 
         Parameters
