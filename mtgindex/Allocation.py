@@ -1,4 +1,3 @@
-import os
 import sqlite3
 
 import pandas as pd
@@ -26,20 +25,17 @@ class ConstituentHandler(object):
     """
 
     def __init__(self, cons_origin, cons_dest):
-        """To prevent loading / writing to erroneous file, existence is checked at initialisation.
-
+        """
         Parameters
         ----------
-        cons_origin : str
-            Path to database containing constituent information.
+        conn_origin : sqlite3.Connection
+            Connection to the main database containing all constituent information.
 
-        cons_dest : str
-            Path to database containing constituent allocations.
+        conn_dest : sqlite3.Connection
+            Connection to the database containing constituent allocation.
         """
-        assert os.path.isfile(cons_origin), 'Origin database does not exist'
-        assert os.path.isfile(cons_dest), 'Destination database does not exist'
-        self.conn_origin = sqlite3.connect(cons_origin)
-        self.conn_dest = sqlite3.connect(cons_dest)
+        self.conn_origin = cons_origin
+        self.conn_dest = cons_dest
 
     def select_cons(self, benchmark_query):
         """Use passed sql query to load constituent information from the main database.
