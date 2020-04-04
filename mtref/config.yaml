@@ -1,5 +1,5 @@
 local_version_path:
-  MTREF/local_price_date.txt
+  mtref/local_price_date.txt
 remote_version_url:
   https://mtgjson.com/json/version.json
 database_url:
@@ -7,8 +7,8 @@ database_url:
 local_database_location:
   MTCARD
 MTBENCHMARK_loc:
-  MTBENCHMARK.sqlite
+  Constituent_Allocation.sqlite
 queries_loc:
-  MTREF/constituent_allocation_queries.csv
+  mtref/constituent_allocation_queries.csv
 
 
