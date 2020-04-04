@@ -41,16 +41,19 @@ class Assembler(object):
         Returns
         -------
         Instantiated `Assembler` object.
-
         """
         response = requests.get(location)
         response.raise_for_status()
         return cls(response.content)
 
-    def build(self, location):
-        """Assembles database from retrieved data.
+    def get_data(self):
+        """Property getter method for accessing data attribute.
+
+        Returns
+        -------
+        self.data : data structure
         """
-        return NotImplementedError
+        return self.data
 
 
 class AssembleSQL(Assembler):
