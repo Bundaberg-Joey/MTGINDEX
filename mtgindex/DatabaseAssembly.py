@@ -30,7 +30,7 @@ class Assembler(object):
         self.built = False
 
     @classmethod
-    def retrieve_data(cls, location):
+    def download_data(cls, location):
         """Factory method to retrieve remotely hosted data and return to class.
 
         Parameters
@@ -59,12 +59,12 @@ class Assembler(object):
 class AssembleSQL(Assembler):
     """Child class for saving retrieved data as new SQL database.
     """
-    def build(self, location):
+    def build(self, destination):
         """ Assemble retrieved database as sqlite file.
 
         Parameters
         ----------
-        location : str
+        destination : str
             filename to save the database to.
 
         Returns
@@ -73,6 +73,6 @@ class AssembleSQL(Assembler):
             Sets `self.built` to True.
         """
         assert self.data is not None, 'Data does not exist to mtcard local database'
-        with open(location, 'wb') as f:
+        with open(destination, 'wb') as f:
             f.write(self.data)
         self.built = True
