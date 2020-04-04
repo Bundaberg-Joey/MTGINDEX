@@ -7,10 +7,10 @@ class VersionController(object):
     Attributes
     ----------
     current : str
-        Date / version id of current mtgindex mtcard store locally.
+        Date / version id of current database build store locally.
 
     queried : str
-        Date / version id of current mtgindex mtcard hosted remotely.
+        Date / version id of current mtgjson database hosted remotely.
 
     query_key : str
         Key value used to access hosted json file containing remote version.
@@ -20,13 +20,10 @@ class VersionController(object):
 
     Methods
     -------
-    fetch_current(self, location)
-
-    fetch_queried(self, location)
-
-    compare_versions(self)
-
-    update_current_record(self, location)
+    fetch_current(self, location) --> fetches current version
+    fetch_queried(self, location) --> fetches remote version
+    compare_versions(self) --> compares versions
+    update_current_record(self, location) --> writes version to file
     """
 
     def __init__(self, current=None, queried=None):
@@ -36,7 +33,7 @@ class VersionController(object):
         self.match = None
 
     def fetch_current(self, location):
-        """Returns the version information of the most recent current database mtcard.
+        """Returns the version information of the most recent current database.
 
         Parameters
         ----------
@@ -55,7 +52,7 @@ class VersionController(object):
 
     def fetch_queried(self, location):
         """Retrieves the current version of the hosted database.
-        Requests the json page hosted by mtgjson containing the remote mtcard dates.
+        Requests the json page hosted by mtgjson containing the remote mtgjson dates.
         JSON Response is indexed with the passed key to retrieve the relevant date as multiple are listed.
 
         Parameters
@@ -87,7 +84,7 @@ class VersionController(object):
     def update_current_record(self, location):
         """Updates record of current version with that of queried version.
         'self.current' is updated to `self.queried` to reflect update.
-        Returns the version information of the most recent current database mtcard.
+        Returns the version information of the most recent current database mtgjson.
 
         Parameters
         ----------
