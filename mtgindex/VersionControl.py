@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 
 class VersionController(object):
@@ -20,10 +22,11 @@ class VersionController(object):
 
     Methods
     -------
-    fetch_current(self, location) --> fetches current version
-    fetch_queried(self, location) --> fetches remote version
-    compare_versions(self) --> compares versions
-    update_current_record(self, location) --> writes version to file
+    fetch_current(self, location) --> Fetches current version.
+    fetch_queried(self, location) --> Fetches remote version.
+    compare_versions(self) --> Compares versions.
+    format_pricedate(self, current='%Y-%m-%d', out='%Y-%m-%d') --> Allows for date conversion.
+    update_current_record(self, location) --> Writes version to file.
     """
 
     def __init__(self, current=None, queried=None):
@@ -80,6 +83,30 @@ class VersionController(object):
         """
         self.match = True if self.current == self.queried else False
         return self.match
+
+    def format_pricedate(self, current='%Y-%m-%d', out='%Y-%m-%d'):
+        """Converts between the mtgjson date and user specified date format.
+        Allows local database to be consistent if the supplier ever changes their date format.
+
+        Parameters
+        ----------
+        current : str (default = '%Y-%m-%d')
+            Date format of the mtgjson date hosted.
+
+        out : str (default = '%Y-%m-%d')
+            Date format used for storing price data locally.
+
+        Returns
+        -------
+        converted : str
+            Date in the format specified by `out`
+        """
+        try:
+            converted = datetime.strptime(self.queried, current).strftime(out)
+        except ValueError:
+            raise ValueError(F'Unable to convert {self.queried} from {current} to {out}')
+
+        return converted
 
     def update_current_record(self, location):
         """Updates record of current version with that of queried version.
