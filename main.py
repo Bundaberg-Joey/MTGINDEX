@@ -7,23 +7,22 @@ if __name__ == '__main__':
 
     config = utilities.load_yaml('reference/config.yaml')
 
-    mtgjson_loc = config['mtgjson_local_loc']
-    mtcard_loc = config['mtcard_loc']
-    mtbenchmark_loc = config['mtbenchmark_loc']
+    mtgjson_loc = config['mtgjson_db_loc']
+    mtcard_loc = config['mtcard_db_loc']
+    mtbenchmark_loc = config['mtbenchmark_db_loc']
 
     print('version control')
     vc = VersionController()
-    vc.fetch_current(location=config['local_version_loc'])
-    vc.fetch_queried(location=config['remote_version_url'])
+    vc.fetch_current(location=config['local_version_path'])
+    vc.fetch_queried(location=config['mtgjson_version_url'])
 
     if vc.compare_versions() is False:
         print('retrieving database')
-        db = AssembleSQL.download_data(location=config['database_url'])
+        db = AssembleSQL.download_data(location=config['mtgjson_db_url'])
         print('building database')
-        db.build(destination=mtcard_loc)
+        db.build(destination=mtgjson_loc)
 
-    database_locations = [mtgjson_loc, mtcard_loc, mtbenchmark_loc]
-    mtgjson_conn, mtcard_conn, mtbenchmark_conn = utilities.establish_connection(database_locations)
+    mtgjson_conn, mtcard_conn, mtbenchmark_conn = utilities.establish_connection(mtgjson_loc, mtcard_loc, mtbenchmark_loc)
 
     benchmark_queries = utilities.load_yaml(config['mtqueries_loc'])
     print('initialising handler')
