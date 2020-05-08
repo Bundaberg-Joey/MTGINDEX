@@ -54,7 +54,7 @@ class _Benchmark:
         assert len(results) == len(self.constituents), 'Number of constituents and associated prices do not match'
         self.values = results
 
-    def transcribe_evaluations(self, storage_curr):
+    def transcribe_evaluations(self):
         """Export benchmark information so can be saved to a database somehow"""
         details = {'date': self.price_date,
                    'constituents': self.constituents,
