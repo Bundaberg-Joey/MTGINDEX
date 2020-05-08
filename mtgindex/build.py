@@ -3,7 +3,7 @@ from datetime import datetime
 import requests
 
 
-class VersionController(object):
+class VersionControl(object):
     """Used for comparing host and local versions of mtgindex database.
     Class contains functionality to fetch versions, compare them, and update reference values.
 

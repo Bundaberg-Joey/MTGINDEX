@@ -1,7 +1,6 @@
 from mtgindex import utilities
-from mtgindex.build import VersionController, AssembleSQL
-from mtgindex.Allocation import ConstituentHandler
-from mtgindex.Finance import BenchmarkHandler
+from mtgindex.build import VersionControl, AssembleSQL
+from mtgindex.pipeline import ConstituentPipeline, BenchmarkPipeline
 
 if __name__ == '__main__':
 
@@ -12,7 +11,7 @@ if __name__ == '__main__':
     mtbenchmark_loc = config['mtbenchmark_db_loc']
 
     print('version control')
-    vc = VersionController()
+    vc = VersionControl()
     vc.fetch_current(location=config['local_version_path'])
     vc.fetch_queried(location=config['mtgjson_version_url'])
 
@@ -26,25 +25,38 @@ if __name__ == '__main__':
 
     benchmark_queries = utilities.load_yaml(config['mtqueries_loc'])
     print('initialising handler')
-    ch = ConstituentHandler(cons_origin=mtgjson_conn, cons_dest=mtcard_conn)
-    bh = BenchmarkHandler(constituent_conn=mtcard_conn, benchmark_conn=mtbenchmark_conn)
+    ch = ConstituentPipeline(cons_origin=mtgjson_conn, cons_dest=mtcard_conn)
+    bh = BenchmarkPipeline(constituent_conn=mtcard_conn, benchmark_conn=mtbenchmark_conn)
     price_date = vc.format_pricedate(current='%Y-%m-%d', out='%Y-%m-%d')
 
     for benchmark in benchmark_queries:
-        print('benchmark')
         query = benchmark_queries[benchmark]
         constituents = ch.select_cons(benchmark_query=query)
 
         if len(constituents) > 0:
             print('\t', 'Saving', benchmark)
-            ch.save_cons(table=benchmark, constituents=constituents)
-            # if table in benchmark level schema then calculate / append price
-            # if not in benchmark table, create benchmark with new value
+            # get prices of these constituents
+            # if benchmark already exists:
+            #   save prices to column in a list
+            #   calculate index levl
+            #   save index level adjacent column to cons prices
+            # else:
+            #   create new table
+            #   save prices to column in list
+            #   add starter index value
+
+            ch.save_cons(table=benchmark, constituents=constituents)  # save the constituents to a file for future ref
 
         else:
             print('\t', 'Dropping', benchmark)
             ch.drop_cons_table(table=benchmark)
-            # if in benchmark table but not cons database then add nan value to benchmark for date
+            # if benchmark already exists:
+            #   propagate index value with NaN or other such value
+            #   update cons data to be empty list for that day
+            # else:
+            #   create new table
+            #   save empty list of cons prices
+            #   save Nan or other such value as index level
 
 # TODO 1 : Add logger class to track ongoing process
 # TODO 2 : Create index levels from constituents
