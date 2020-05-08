@@ -46,6 +46,6 @@ if __name__ == '__main__':
             ch.drop_cons_table(table=benchmark)
             # if in benchmark table but not cons database then add nan value to benchmark for date
 
-# TODO 1: Update so that price information is also retrieved with constituents. (don't break to much).
-# TODO 2: Update index level with constituents.
-# TODO 3: Store constituent level information.
+# TODO 1 : Add logger class to track ongoing process
+# TODO 2 : Create index levels from constituents
+# TODO 3 : Store constituent level price information
