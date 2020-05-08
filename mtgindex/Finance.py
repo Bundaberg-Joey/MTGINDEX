@@ -1,11 +1,11 @@
 import pandas as pd
 
+
 class BenchmarkHandler(object):
 
     def __init__(self, constituent_conn, benchmark_conn):
         self.cons_conn = constituent_conn
-        self.bench_conn  = benchmark_conn
-
+        self.bench_conn = benchmark_conn
 
     def initialise_benchmark_level(self, benchmark, date, value=1000.0):
         """Creates first benchmark level of new benchmark in new sql table.
@@ -39,6 +39,9 @@ class BenchmarkHandler(object):
         -------
         None
         """
+        # load benchmark as pandas dataframe
+        # add new value as row to the dataframe
+        # write the update table to sql file
         return NotImplementedError
 
     def null_benchmark_level(self):
@@ -48,6 +51,9 @@ class BenchmarkHandler(object):
         -------
         None
         """
+        # load benchmark as pandas dataframe
+        # add NaN as row to the dataframe
+        # write the update table to sql file
         return NotImplementedError
 
 
@@ -63,4 +69,4 @@ def price_weighted_index(prior_level, constituent_prices, **kwargs):
     # weighting = 1/len(constituent_prices)
     # level = prior_level * (1 + sum(constituent_prices) * weighting)
     # return level
-    NotImplementedError
+    return NotImplementedError
