@@ -63,6 +63,9 @@ class Benchmark:
         self.constituents = []
         self.evaluation_type = evaluation_type
         self.values = []
+        self._initial_index_value = 1000.0
+        self._propagated_index_value = -1
+        self.index_value = 1000.0  #
 
     def apply_criteria(self, constituent_table_curr):
         """Apply benchmark criteria to table of constituents.
@@ -122,27 +125,6 @@ class Benchmark:
             self.values = [entry[0] for entry in results]
         else:
             warnings.warn(F'No values found', UserWarning)
-
-    def report_data(self):
-        """Exports internal benchmark information as a dictionary.
-
-        Returns
-        -------
-        data : dict
-            'benchmark': `name` (str),
-            'date': `evaluation_date` (str),
-            '_value_type': `_evaluation_type` (str),
-            'constituents': `_constituents` (list[str]),
-            'values': `_values` (list[float])
-        """
-        data = {
-            'benchmark': self.name,
-            'date': self.evaluation_date,
-            'evaluation_type': self.evaluation_type,
-            'constituents': self.constituents,
-            'values': self.values
-        }
-        return data
 
     def get_constituents_str(self):
         """Getter for `constituents`.
