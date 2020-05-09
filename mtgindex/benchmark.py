@@ -2,6 +2,7 @@
 Benchmark class, for interfacing between mtgindex and mtgjson databases.
 """
 import warnings
+import json
 
 
 class Benchmark:
@@ -36,6 +37,8 @@ class Benchmark:
     apply_criteria(self, constituent_table_curr) --> Applies benchmark criteria to select valid constituents.
     evaluate_constituents(self, evaluation_table_curr) --> Looks up evaluations of valid constituents.
     report_data(self) --> Returns select benchmark attributes as dictionary.
+    get_constituents_str(self) --> Returns constituent list as string
+    get_values_str(self) --> Returns constituent list as string
     """
 
     def __init__(self, name, criteria, evaluation_type, evaluation_date):
@@ -141,24 +144,30 @@ class Benchmark:
         }
         return data
 
-    def get_constituents(self):
-        """Getter for `_constituents`.
-        No transformations performed.
+    def get_constituents_str(self):
+        """Getter for `constituents`.
+        List converted to string via `json.dumps`.
+        Intended for interfacing with database.
 
         Returns
         -------
-        `_constituents` : list[str], shape(<num_entries>)
+        `constituents` : str
             List of benchmark constituent UUIDs from the mtgjson database.
+            Serialised  into string using json module.
         """
-        return self.constituents
+        constituents = json.dumps(self.constituents)
+        return constituents
 
-    def get_values(self):
-        """Getter for `_values`.
-        No transformations performed.
+    def get_values_str(self):
+        """Getter for `values`.
+        List converted to string via `json.dumps`.
+        Intended for interfacing with database.
 
         Returns
         -------
-        `_values` : list[str], shape(<num_entries>)
+        `values` : str
             List of benchmark constituent values from the mtgjson database.
+            Serialised  into string using json module.
         """
-        return self.values
+        values = json.dumps(self.values)
+        return values
