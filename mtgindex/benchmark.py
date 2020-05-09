@@ -153,3 +153,16 @@ class Benchmark:
         """
         values = json.dumps(self.values)
         return values
+
+    def get_prior_index(self, mtgindex_curr):
+        # cursor object
+        pass  # get prior index level, set as False if not existant so know to use new index value of 1000.0
+
+    def weight_cons(self, weights):
+        # optional list of precalcd weights same size as `constituents`
+        pass  # will do price weighting otherwise
+
+    def calulate_index(self, calculator):
+        # calculator must take (prices, weights, prior_level, **kwargs) as arguments (can store in finance / calulator folder)
+        pass  # return index level unless triggered new index alert in `get_prior_index`
+
