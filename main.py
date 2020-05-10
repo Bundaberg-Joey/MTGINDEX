@@ -1,63 +1,38 @@
+import sqlite3
+
 from mtgindex import utilities
 from mtgindex.build import VersionControl, AssembleSQL
-from mtgindex.pipeline import ConstituentPipeline, BenchmarkPipeline
+from mtgindex.benchmark import PriceWeightedBenchmark
 
 if __name__ == '__main__':
 
-    config = utilities.load_yaml('reference/config.yaml')
-
-    mtgjson_loc = config['mtgjson_db_loc']
-    mtcard_loc = config['mtcard_db_loc']
-    mtbenchmark_loc = config['mtbenchmark_db_loc']
+    mtgjson_loc = 'database/mtgjson.sqlite'
+    mtgindex_loc = 'database/mtgindex.sqlite'
 
     print('version control')
     vc = VersionControl()
-    vc.fetch_current(location=config['local_version_path'])
-    vc.fetch_queried(location=config['mtgjson_version_url'])
+    vc.fetch_current(location='reference/local_price_date.txt')
+    vc.fetch_queried(location='https://mtgjson.com/json/version.json')
 
     if vc.compare_versions() is False:
         print('retrieving database')
-        db = AssembleSQL.download_data(location=config['mtgjson_db_url'])
+        db = AssembleSQL.download_data('https://www.mtgjson.com/files/AllPrintings.sqlite')
         print('building database')
         db.build(destination=mtgjson_loc)
 
-    mtgjson_conn, mtcard_conn, mtbenchmark_conn = utilities.establish_connection(mtgjson_loc, mtcard_loc, mtbenchmark_loc)
-
-    benchmark_queries = utilities.load_yaml(config['mtqueries_loc'])
-    print('initialising handler')
-    ch = ConstituentPipeline(cons_origin=mtgjson_conn, cons_dest=mtcard_conn)
-    bh = BenchmarkPipeline(constituent_conn=mtcard_conn, benchmark_conn=mtbenchmark_conn)
+    index_queries = utilities.load_yaml('reference/mtqueries.yml')
     price_date = vc.format_pricedate(current='%Y-%m-%d', out='%Y-%m-%d')
 
-    for benchmark in benchmark_queries:
-        query = benchmark_queries[benchmark]
-        constituents = ch.select_cons(benchmark_query=query)
+    conn = sqlite3.connect(mtgjson_loc)
+    curr = conn.cursor()
 
-        if len(constituents) > 0:
-            print('\t', 'Saving', benchmark)
-            # get prices of these constituents
-            # if benchmark already exists:
-            #   save prices to column in a list
-            #   calculate index levl
-            #   save index level adjacent column to cons prices
-            # else:
-            #   create new table
-            #   save prices to column in list
-            #   add starter index value
+    for index_name in index_queries:
+        print(index_name)
+        criteria = index_queries[index_name]
+        benchmark = PriceWeightedBenchmark(name=index_name, criteria=criteria, evaluation_type='paper', evaluation_date=price_date)
+        benchmark.apply_criteria(curr)
+        benchmark.evaluate_constituents(curr)
 
-            ch.save_cons(table=benchmark, constituents=constituents)  # save the constituents to a file for future ref
-
-        else:
-            print('\t', 'Dropping', benchmark)
-            ch.drop_cons_table(table=benchmark)
-            # if benchmark already exists:
-            #   propagate index value with NaN or other such value
-            #   update cons data to be empty list for that day
-            # else:
-            #   create new table
-            #   save empty list of cons prices
-            #   save Nan or other such value as index level
-
-# TODO 1 : Add logger class to track ongoing process
-# TODO 2 : Create index levels from constituents
-# TODO 3 : Store constituent level price information
+    # TODO 1: Test that the PriceWeightedBenchmark class works like it's meant to!!!
+    # TODO 2: Once fully integrated, create yaml file which tracks dates which have been assessed
+    # TODO 3: develop a function which can see which dates have not been assessed from MTGJSON database so can iterate through them
