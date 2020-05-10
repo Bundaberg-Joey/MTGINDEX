@@ -59,13 +59,15 @@ class Benchmark:
         """
         self.name = name
         self.criteria = criteria
+        self.evaluation_type = evaluation_type
         self.evaluation_date = evaluation_date
         self.constituents = []
-        self.evaluation_type = evaluation_type
         self.values = []
-        self._initial_index_value = 1000.0
-        self._propagated_index_value = -1
-        self.index_value = 1000.0  #
+        self.index_value = None
+        self.prior_index_value = None
+        self._constituent_weights = []
+        self._index_init_value = 1000.0
+        self._null_index_value = -1
 
     def apply_criteria(self, constituent_table_curr):
         """Apply benchmark criteria to table of constituents.
@@ -126,6 +128,50 @@ class Benchmark:
         else:
             warnings.warn(F'No values found', UserWarning)
 
+    def get_prior_index(self, mtgindex_curr):
+        """Retrieve first valid prior evaluation of index level from mtgindex database.
+        If there are no evaluations for the benchmark constituents on `evaluation_date` then propagate NULL value.
+        If there are no existing values then set benchmark level to `_index_init_value`.
+        Set the benchmark level to the most recent non-NULL index value.
+        If a non-NULL benchmark value has not yet been found then the benchmark will be initialised
+        with `_index_init_value` to ensure a value is presnt the next time the benchmark is evaluated.
+
+        Parameters
+        ----------
+        mtgindex_curr : sqlite3.Cursor
+            Cursor object for the database containing index evaluation data.
+
+        Returns
+        -------
+        None
+        """
+        if len(self.values) == 0:
+            self.prior_index_value = self._null_index_value  # if no valid constituents then just propagate value
+
+        else:
+            query = F'SELECT indexvalue from {self.name}'
+            query_results = mtgindex_curr.execute(query).fetchall()
+
+            if len(query_results) == 0:
+                self.prior_index_value = self._index_init_value  # new benchmark so initialise appropriately
+
+            else:
+                for entry in query_results[::-1]:  # loop in reverse order to find most recent
+                    entry_value = entry[0]
+
+                    if entry_value != self._null_index_value:  # first non null value
+                        self.prior_index_value = entry_value
+                        break
+
+                if self.prior_index_value is None:  # catches where only prior propagated values
+                    self.prior_index_value = self._index_init_value
+
+    def weight_constituents(self, custom_weighting=None):
+        return NotImplemented
+
+    def calculate_index_level(self, custom_weighting=None):
+        return NotImplemented
+
     def get_constituents_str(self):
         """Getter for `constituents`.
         List converted to string via `json.dumps`.
@@ -154,15 +200,54 @@ class Benchmark:
         values = json.dumps(self.values)
         return values
 
-    def get_prior_index(self, mtgindex_curr):
-        # cursor object
-        pass  # get prior index level, set as False if not existant so know to use new index value of 1000.0
 
-    def weight_cons(self, weights):
-        # optional list of precalcd weights same size as `constituents`
-        pass  # will do price weighting otherwise
+# ----------------------------------------------------------------------------------------------------------------------
 
-    def calulate_index(self, calculator):
-        # calculator must take (prices, weights, prior_level, **kwargs) as arguments (can store in finance / calulator folder)
-        pass  # return index level unless triggered new index alert in `get_prior_index`
+class PriceWeightedBenchmark(Benchmark):
 
+    def weight_constituents(self, custom_weighting=None):
+        """Calculate Price weighting of each evaluated constituent.
+        Weighting is calculated as ratio of each constituent's price against the total price of all constituents.
+        Custom weights can be passed by user so long as the number of weights matches the number of constituent values.
+
+        Parameters
+        ----------
+        custom_weighting = list[float], shape(len(self.constituents))
+            Weightings for each priced constituent.
+
+        Returns
+        -------
+        None
+        """
+        if not custom_weighting:
+            total = sum(self.values)
+            weights = [price/total for price in self.values]
+        else:
+            assert len(custom_weighting) == len(self.constituents)
+            weights = custom_weighting
+
+        self._constituent_weights = weights
+
+    def calculate_index_level(self, custom_calculator=None):
+        """Calculates the price weighted index level of a benchmark using the methodology:
+        $$level_t = level_{t-1} \times (1 + \sum_{i=0} c_i \cdot w_i)$$
+
+        Custom calculators can be passed by the user but they must accept specific inputs
+
+        Parameters
+        ----------
+        custom_calculator : function(prices, weights, prior_level)
+            Custom user function to calculate the price weighted index level.
+
+        Returns
+        -------
+        None.
+        """
+        if not custom_calculator:
+            weighted_prices = sum((p * w for p, w in zip(self.values, self._constituent_weights)))
+            new_level = self.prior_index_value * (1 + weighted_prices)
+        else:
+            new_level = custom_calculator(prices=self.values,
+                                          weights=self._constituent_weights,
+                                          prior=self.prior_index_value)
+        self.index_value = new_level
