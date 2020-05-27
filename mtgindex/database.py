@@ -106,6 +106,7 @@ class MtgIndex:
         """
 
         self.curr.execute(command)
+        self.conn.commit()
         self.benchmarks = self._update_benchmark_listing()  # added new table so need to update
 
     def update_benchmark_table(self, benchmark_obj):
@@ -134,6 +135,7 @@ class MtgIndex:
 
         command = F'INSERT INTO {name} (evaluationdate, constituents, evaluations, indexvalue) values (?, ?, ?, ?)'
         self.curr.execute(command, (date, constituents, values, index_value))
+        self.conn.commit()
 
     def return_table(self, name):
         """Returns the contents of the specified table frmo the database.
